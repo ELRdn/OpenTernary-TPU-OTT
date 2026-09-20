@@ -1,0 +1,29 @@
+{
+  "evidence": "Yosys UltraScale+ technology mapping, no place and route",
+  "counting": "LUT1..LUT6 node sum, not vendor placed LUT utilization; includes separately reported INV/CARRY cells",
+  "baseline_64bit_rounding": {
+    "LUT1_to_LUT6": 57154,
+    "FDRE": 39258,
+    "DSP48E2": 64,
+    "RAMB18E2": 45,
+    "CARRY4": 9383,
+    "INV": 9498,
+    "RAM32M16": 37
+  },
+  "optimized_product_width_rounding": {
+    "LUT1_to_LUT6": 56561,
+    "FDRE": 37274,
+    "DSP48E2": 64,
+    "RAMB18E2": 45,
+    "CARRY4": 9191,
+    "INV": 9498,
+    "RAM32M16": 37
+  },
+  "relative_LUT_node_reduction": 0.010375476782027548,
+  "relative_FF_reduction": 0.0505374700697947,
+  "clock_verified": false,
+  "power_measured": false,
+  "Vivado_primitive_legality_verified": false,
+  "DSP_scope": "64 group scale multipliers; ternary MAC structurally excludes multiplication",
+  "BRAM_unit": "18 Kb blocks; 45 blocks = 22.5 of 36 Kb capacity, not a vendor placement claim"
+}

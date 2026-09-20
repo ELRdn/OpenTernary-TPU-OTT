@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OpenTernary TPC-X1 — 設計・実装・検証レポート</title><style>
+:root{color-scheme:light}*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:#edf1f5;color:#213143;font-family:system-ui,-apple-system,"Yu Gothic",Meiryo,sans-serif;line-height:1.9}
+main{max-width:1110px;margin:32px auto 48px;background:#fff;padding:42px 58px;border-top:7px solid #174f72;box-shadow:0 8px 32px #2233440c}
+.label{letter-spacing:.14em;color:#174f72;font-size:.78rem;font-weight:700;margin-bottom:14px}
+h1{font-size:2rem;line-height:1.45;margin:.5em 0 1em}h2{margin:2.6rem 0 1rem;border-bottom:2px solid #dce6ed;padding-bottom:.5rem;font-size:1.45rem;scroll-margin-top:18px}
+h3{margin-top:1.8rem;font-size:1.15rem}p{margin:1rem 0}strong{color:#12314c}a{color:#175f90;text-underline-offset:3px}
+nav{border:1px solid #cfdae3;background:#f4f7fa;padding:16px 20px;margin:20px 0 32px}nav summary{cursor:pointer;font-weight:700}nav .toc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 24px;margin-top:12px;font-size:.85rem}nav a{text-decoration:none;padding:2px 0}
+.table-wrap{overflow:auto;width:100%;margin:1.3rem 0}table{border-collapse:collapse;min-width:100%;font-size:.92rem}td,th{border:1px solid #d2dde6;padding:10px 13px;text-align:left;vertical-align:top;min-width:100px}th{background:#eff4f8}tr:nth-child(even) td{background:#fafcfd}
+pre{padding:16px 20px;background:#f3f6f8;overflow:auto;border:1px solid #dce4eb;line-height:1.65;font-size:.86rem}code{font-family:ui-monospace,Consolas,monospace;overflow-wrap:anywhere}p code,li code,td code{background:#eff3f6;padding:1px 4px;border-radius:3px}blockquote{border-left:4px solid #7696af;padding:1px 20px;margin:1rem 0;background:#f6f8fb}hr{border:0;border-top:3px solid #e5ebf0;margin:3.2rem 0}
+footer{max-width:1000px;margin:0 auto 32px;padding:0 20px;color:#627284;font-size:.82rem;text-align:center}
+@media(max-width:700px){main{margin:0;padding:24px 18px;box-shadow:none}h1{font-size:1.55rem}h2{font-size:1.28rem}body{font-size:15px}nav .toc{grid-template-columns:1fr}td,th{padding:8px 10px}footer{margin:24px auto}}
+@media print{main{margin:0;padding:0;border:0;box-shadow:none}body{background:#fff}nav{display:none}h2,h3{break-after:avoid}tr,pre{break-inside:avoid}a{color:inherit}}
+</style></head>
+<body><main><div class="label">OPENTERNARY / TPC-X1 / RESEARCH &amp; ENGINEERING</div>
+<nav aria-label="目次"><details><summary>レポート目次を開く</summary><div class="toc"><a href="#section-1">実行結果の要点</a><a href="#section-2">合成で確認した最適化</a><a href="#section-3">cycle測定と、周波数の仮定</a><a href="#section-4">成果物の位置づけ</a><a href="#section-5">OpenTernary TPC-X1 — 追加調査レポート</a><a href="#section-6">TPC-X1 アーキテクチャ設計書</a><a href="#section-7">数値・符号・パッキング契約</a><a href="#section-8">性能比較と合格ゲート</a><a href="#section-9">実機・完成系への統合設計</a><a href="#section-10">既知の限界と、まだ達成していないこと</a><a href="#section-11">参考資料</a></div></details></nav>
+<h1>OpenTernary TPC-X1 — 設計・実装・検証レポート</h1>
+<p><strong>2026-09-20 / 競合性能を狙う三値専用テンソルアクセラレータ</strong></p>
+<h2 id="section-1">実行結果の要点</h2>
+<p>追加調査、アーキテクチャ設計、実SystemVerilogの実装、Yosys/CXXRTLでの実行、局所SAT証明、FPGA向けtechnology mappingまで実施した。今回作成したのはR16×L16×B4のタイル型アクセラレータと完成系SoCの設計書であり、以前の8-lane単発dot PoCではない。</p>
+<p><strong>競合同等以上のLLM tokens/s、250 MHzの実機動作、基板電力は未実証。</strong> 完全なTransformer、DMA、Vivado配置配線、基板評価は未統合または未実行である。この区別を維持したうえで、取得した証拠を以下に示す。</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>実施内容</th>
+  <th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>テスト全体</td>
+  <td>24 passed / 0 failures / 0 skipped</td>
+</tr>
+<tr>
+  <td>実RTL random試験</td>
+  <td>1,000 commands、64,000出力値、3,194,727有効termsを照合</td>
+</tr>
+<tr>
+  <td>実RTLの追加試験</td>
+  <td>境界値、tail、stall、reset、2 bank、不正入力、4096を超えるKのcompiler分割</td>
+</tr>
+<tr>
+  <td>数式・仕様モデル</td>
+  <td>独立C++で1,500 random GEMM、cycle仕様で10,000 transactions</td>
+</tr>
+<tr>
+  <td>組合せSAT</td>
+  <td>三値product、T5、丸め幅変更の3性質PASS</td>
+</tr>
+<tr>
+  <td>hot path構造</td>
+  <td>三値MAC内の通常乗算cellなし</td>
+</tr>
+<tr>
+  <td>FPGA technology mapping</td>
+  <td>PASS。ただし配置配線・基板測定ではない</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="section-2">合成で確認した最適化</h2>
+<p>同じ回路の丸め部分を必要bit幅へ狭めたところ、LUT1～LUT6ノード数は57,154から56,561へ約1.04%減、FFは39,258から37,274へ約5.05%減となった。64 DSP48E2、45 RAMB18E2を使用するmapping結果である。DSPはgroup scaleにあり、三値productの通常乗算器ではない。これを面積全体や消費電力の同率改善とは読み替えない。</p>
+<h2 id="section-3">cycle測定と、周波数の仮定</h2>
+<p>実CXXRTLでは、load済みのR16/B4/K4096 tileがcommand受理から出力受け取りまで266 cyclesで完了した。確認したKでは <code>ceil(K/16)+10</code> cyclesだった。262,144 termsを266 cyclesで処理している。</p>
+<p>250 MHzを仮定すると、ピークは0.512 TOPS-equivalent、上記tileは約0.493 TOPS-equivalentになる。これは1三値termを慣例的に2 operationsと数えた値であり、TFLOPSでも実機clockの測定でもない。DDR転送、Attention、KV、CPU処理を含めたtokens/sへ変換していない。</p>
+<h2 id="section-4">成果物の位置づけ</h2>
+<p>コード・検証log・合成netlistは実在する成果物。次に閉じるべきゲートは、exact partでのtiming closure、DMAと実checkpointの一層、完全モデルの品質と速度、電力境界を揃えた比較である。未実行ゲートはJSONでもNOT_RUNとして保持した。</p>
+<hr />
+<h2 id="section-5">OpenTernary TPC-X1 — 追加調査レポート</h2>
+<p><strong>調査日：2026-09-20。対象：三値専用テンソルアクセラレータ。</strong></p>
+<p>本書は、先行回答の文章を設計の根拠にせず、論文本体・図表・著者の公開リポジトリ・メーカー資料を読み直した結果である。数値は「論文の報告」「自分たちのRTL実行」「合成」「配置配線」「基板測定」を分離する。文献番号のURL・版・確認範囲は <code>reference/sources.json</code> に収録した。</p>
+<h3>1. 最初に修正すべき理解</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>論点</th>
+  <th>再確認した内容</th>
+  <th>今回の設計への影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>TeLLMeの9.51 tokens/s</td>
+  <td>0.7Bモデルの報告ピーク値。本文では512-token contextで9超、1024では約8と説明する。全contextで9.51という意味ではない。[S01]</td>
+  <td>短いcontextと1024を別々の合格条件にする。</td>
+</tr>
+<tr>
+  <td>TeLLMeの電力</td>
+  <td>Table IIIに6.72 W。電源入力、FPGA部分、実測か推定かの測定境界を、今回確認した実験節だけから一意に確定できない。[S01]</td>
+  <td>その値を「基板全体の実測」と言い換えない。同じ境界が確定するまで効率比較を保留。</td>
+</tr>
+<tr>
+  <td>TerEfficの非常に大きいtokens/s</td>
+  <td>MatMul-free LM系のモデル、U280、大きなオンチップメモリなどが前提。370Mを載せる構成は2枚のU280。電力内訳にはVivado power reportを利用している。[S02]</td>
+  <td>KV260上のTransformerと同一ランキングに並べない。</td>
+</tr>
+<tr>
+  <td>KU Leuvenの約2.2倍</td>
+  <td>32×32・FP16の面積比較では、full-width baselineに2.23倍、sign-flip baselineに1.64倍。INT8ではLUT化の面積差が小さいと報告。[S03]</td>
+  <td>INT8の本機に「LUTなら2.2倍速い」を適用しない。</td>
+</tr>
+<tr>
+  <td>4 tritsを6 bitsへ</td>
+  <td>81通りを64通りへ制限するTERINT-GEMVは、コードブック変更・fine-tuningを伴う。任意の三値列を可逆圧縮する話ではない。[S05]</td>
+  <td>本機の可逆T5圧縮と明確に区別。</td>
+</tr>
+<tr>
+  <td>1.58-bitと実ファイルサイズ</td>
+  <td>3状態の情報量log2(3)と、固定長パッキング・scale・padding込みの保存サイズは別。</td>
+  <td>2bit-v1、T5、scale込みのbytesを個別に数える。</td>
+</tr>
+<tr>
+  <td>「multiplier-free」</td>
+  <td>三値×INT8部分には通常の乗算器が不要でも、group scaleやAttentionでは乗算が必要。</td>
+  <td>「チップ全体にDSPゼロ」ではなく、三値の主演算経路にゼロを要求。</td>
+</tr>
+</tbody>
+</table></div>
+<h3>2. 主な先行研究と、比較が成立する範囲</h3>
+<h4>TeLLMe：今回のエッジ性能目標の基準</h4>
+<p>TeLLMeはUCIの、三値行列演算だけでなくAttention・正規化を含むprefill/decode設計。KV260、250 MHz、0.7B、9.51 tokens/sピーク、64-token prefill 0.55 s、モデルサイズ257 MBを報告する。Table IVの全体資源は108,994 LUT、155,838 FF、356 DSP、206 BRAM、48 URAM。[S01]</p>
+<p><strong>取り入れる設計原則</strong>は、非線形演算を放置しないこと、Attentionのデータ移動削減、load/computeの重なり、実際のモデル全体での測定である。今回は同じcheckpointを取得しての再現は実施していない。BRAM欄はメーカーの144個という36 Kb単位表記とそのまま比較できず、18 Kb単位への正規化が必要になる。</p>
+<h4>TerEffic：オンチップ常駐が変える性能限界</h4>
+<p>v2では、370M・単一batchの2枚構成で16,300 tokens/sを報告し、より大きい2.7BにはHBMを利用する構成を示す。対象モデル構造、加速対象、カード数、電力推定方法がTeLLMeと異なる。[S02]</p>
+<p>本機への示唆は「演算器を増やせば同じ値が出る」ではなく、<strong>重みをどこに保存し、毎token何bytesを運ぶかを先に決める</strong>ことである。KV260の設計をU280級へ拡張する場合も、帯域・メモリIP・動作周波数を別に検証し直す。</p>
+<h4>KU Leuven MICAS：LUTを選ぶための設計探索</h4>
+<p>Chiselによる生成器、TSMC 16 nmライブラリでの合成、データ型・タイル形状・groupingの探索が提供されている。Table IVの大きな面積改善はFP16条件であり、µ=1のsign-selectが比較対象にも含まれる。[S03,S04]</p>
+<p>本機はまずINT8のdirect sign-selectを実装した。LUT方式は不採用と断定せず、同じ数値形式・同じ入出力帯域・同じ配置配線制約で比較する次の候補とする。論文のASIC面積をFPGA LUT数へ換算することはしない。</p>
+<h4>TERINT-GEMV：表現と回路を共同設計する例</h4>
+<p>公開内容はコードブックによる三値モデル変換、bit-serial GEMV、SystemVerilog、SoC推定モデルを含む。[S05] コードブックの制約を受けるため、OpenTernaryの任意の <code>{-1,0,+1}</code> 列をそのまま受け入れる本機とは互換性条件が異なる。モデル品質の再確認なしに置換しない。</p>
+<h4>補助資料</h4>
+<p>T-MACはlow-bit演算をlookupへ置き換えるソフトウェア面の参考、BitNetはモデル・ランタイムの数値境界の参考、ternaryLLMは疎性活用の参考になる。[S06–S08] それぞれのCPU/GPUの倍率をFPGAの倍率へ流用しない。Gemminiのscratchpad、DMA、load/execute/storeの分離は完成系SoCの構成を考える材料になる。[S09] FINNは量子化ネットワークのFPGA実装基盤であり、今回のOpenTernary形式や完全なLLMを自動的に実装してくれると仮定しない。[S10]</p>
+<h3>3. 採用した研究目標</h3>
+<p>最終比較の中心は <strong>TeLLMe級のKV260で、同じ0.7B checkpoint・同じ入出力条件・同等品質</strong> とする。暫定の挑戦目標は、短いcontextで12 tokens/s、64-token prefill 0.45 s以下、1024 contextで10 tokens/sである。電力は、比較対象の測定境界が確定したうえで6.72 W以下を目標とする。</p>
+<p>これらは<strong>設計目標</strong>であり、今回の達成値ではない。現在のタイル計算器のTOPSをtokens/sに置き換えて達成扱いにしない。TeLLMeのcheckpoint識別子・モデル品質評価・測定手順の完全な再現も未了である。代わりに別の2Bモデルを使った場合は別ベンチマークとして報告する。</p>
+<h3>4. 今回のアーキテクチャ判断</h3>
+<p>中心は <code>16 output rows × 16 K lanes × 4 token lanes</code> のタイル型演算器。batch=1のdecodeにも対応し、G128ごとのscaleを独立した経路で処理する。単なる単発dotではなく、複数group、最大K=4096のコマンド、tail mask、エラー伝播、メモリ、二重バッファ、backpressureを含めて設計・実装した。</p>
+<p>最初から本機専用の三状態トランジスタを製造する案ではない。通常の二値デジタル回路で三値重み専用の演算とデータ表現を実現する。FPGA版の仕様を、のちにASICへ移植できるよう計算部と外部メモリ・ホストI/Oを分離している。</p>
+<h3>5. 勝つための本当の課題</h3>
+<p>演算器の加算性能だけでは不足する。実装済みの2bit重みでは、256 weights/beatに64 bytesが必要。G128のscaleを含めると平均72 bytes/beatで、250 MHzを連続稼働させるには18 GB/sとなる。19.2 GB/sというメモリの公称帯域に対して余裕が少ない。仮に70%効率なら13.44 GB/sで、他の通信を無視しても稼働率の上限は約74.7%になる。これは本機の式から得た分析で、基板の実測ではない。</p>
+<p>prefillの4 token再利用は実装したが、64 token全体で重みを一度だけ読む実装ではない。CPUから細かいタイル命令を繰り返すだけでは制御コストが支配し得るため、完成系には自律的なループ制御とDMAが必要になる。Attention・KV cache・RMSNorm・RoPE・非三値LM headも、最終性能の合格条件から外さない。</p>
+<h3>6. 調査の限界</h3>
+<p>公開一次資料を照合したが、全世界の研究を網羅したとの主張はしない。論文著者の報告値は本環境で再測定していない。TeLLMeの電力境界・exact checkpoint、Vivado上の本機の実装適合性、実機上の消費電力、元モデルからの精度劣化は未確認である。これらを隠さず、<code>BENCHMARK_PROTOCOL.md</code> のゲートとして残した。</p>
+<hr />
+<h2 id="section-6">TPC-X1 アーキテクチャ設計書</h2>
+<p>版：0.1、2026-09-20。対象はOpenTernaryと連携する三値専用テンソルアクセラレータである。Google製品としてのTPUではなく、テンソル処理専用NPUの研究設計を指す。</p>
+<h3>1. 実装済みの計算システム</h3>
+<pre><code class="language-text">                          load ports (ready/valid)
+                    ┌─────────┬─────────┬──────────┐
+                    ▼         ▼         ▼          │
+              A scratchpad   W bank0/1  S bank0/1  │
+                 16 KiB      2×16 KiB   2×2 KiB    │
+                    │         │         │          │
+command ──► shape/validity checks ──► read sequencer │
+                    │         │         │          │
+                    └────┬────┘         │          │
+                         ▼              │          │
+               16 rows × 4 token lanes  │          │
+               each: 16 ternary terms   │          │
+                         │              │          │
+             product(INT9), 4-level adder tree      │
+                         │              │          │
+                   group INT32 sums     │          │
+                         │       coefficient FIFO  │
+                         └───────┬──────┘          │
+                                 ▼                 │
+                       64 group-scale multipliers  │
+                                 ▼                 │
+                      signed RNE / INT64 accumulator
+                                 ▼
+                       output ready/valid matrix
+</code></pre>
+<p>この図の計算・メモリ・制御経路は <code>rtl/tpc_accelerator.sv</code> に統合した。外部DDRを直接操作するDMA、AXIインターコネクト、基板固有IPはこのtopの外側であり、まだ統合していない。512/4096-bitのポートはFPGA fabric内の接続であり、外部パッケージのピン本数を意味しない。</p>
+<h3>2. デフォルト構成</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>項目</th>
+  <th>実装仕様</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>出力行数R</td>
+  <td>最大16、コマンドごとに1～16</td>
+</tr>
+<tr>
+  <td>同時token数B</td>
+  <td>最大4、コマンドごとに1～4</td>
+</tr>
+<tr>
+  <td>K並列度L</td>
+  <td>16、RTLパラメータは2の累乗</td>
+</tr>
+<tr>
+  <td>K長</td>
+  <td>1～4096、端数対応</td>
+</tr>
+<tr>
+  <td>group</td>
+  <td>128、K方向のrow-wise grouping</td>
+</tr>
+<tr>
+  <td>入力activation</td>
+  <td>signed INT8、-128も有効</td>
+</tr>
+<tr>
+  <td>重み</td>
+  <td>{-1,0,+1}、canonical 2bit-v1を並べ替えて入力</td>
+</tr>
+<tr>
+  <td>三値product</td>
+  <td>signed INT9</td>
+</tr>
+<tr>
+  <td>group sumの外部形式</td>
+  <td>signed INT32</td>
+</tr>
+<tr>
+  <td>scale</td>
+  <td>unsigned16-bit mantissa、right shift 0～31</td>
+</tr>
+<tr>
+  <td>scale後の加算</td>
+  <td>signed INT64、Kタイル間で早期飽和させない</td>
+</tr>
+<tr>
+  <td>valid/ready</td>
+  <td>入出力のstall、出力payload保持、resetによるflush</td>
+</tr>
+<tr>
+  <td>周波数</td>
+  <td>250 MHzは目標。配置配線で未確認</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3. データフローをこうした理由</h3>
+<p>decodeでは一つのactivation vectorを16出力行へ配り、同時に256個のweight termを処理する。prefillでは同じweight群を最大4 tokenで共有し、最大1024 terms/accepted cycleを処理する。三値productは入力の選択・符号反転・ゼロ化で構成し、通常の乗算器に頼らない。</p>
+<p>16-laneのdotは、product registerと4段の幅を拡張したbalanced adder treeを持つ。registerで分割した理由は、16項を直列加算する長い組合せ経路を避けるためである。ただし、これだけで250 MHzが保証されるわけではない。global enableのfanout、64出力の配置、scale丸め、コマンド検証回路などもtiming closureの対象となる。</p>
+<p>G128なら8 input beatで一つのgroupを形成する。K末尾はmaskで無効laneをゼロ化し、groupを閉じる。group sumと係数を取り違えないため、4-entry metadata FIFOを用い、係数はgroup FIRSTで一度だけ捕捉する。</p>
+<h3>4. コントロールとパイプライン</h3>
+<p>MACは全体を停止できるパイプラインとしている。出力がvalidなのに受け取られない間は、payload・累算・タグ・validの進行をまとめて停止する。これは最大限のelastic pipelineより保守的だが、順序と数値を保ちやすい。metadata FIFOが満杯なら新しいgroup FIRSTの受け付けも止める。</p>
+<p>scale側はproduct、RNE、累算の3段。groupごとの丸め後に、共通のrow-domainでINT64加算する。tile FIRSTでそのtileの累算とerrorを初期化し、tile LASTで出力する。groupをまたいで係数が違うため、全groupを先に一つの整数dotへ潰して最後にscaleを掛ける実装にはしない。</p>
+<p><code>out_error</code>が立った結果は数値として採用せず、そのコマンドを失敗扱いにする。reserved weight、scale reserved bits、shift範囲、group sum範囲などを検出する。演算器単体の不正なFIRST/LAST列はMACで検出できるが、stream engineは正しいframe契約を前提とする。通常は上位sequencerがframeを生成する。</p>
+<h3>5. scratchpadと所有権</h3>
+<p>Aは512 bits×256 wordsで16 KiB。Wは512 bits×512 wordsで32 KiBを2 bankに分ける。Sは512 bits×64 wordsで4 KiBを2 bankに分ける。これは論理payload容量であり、実際のBRAM消費は幅・深さ・port構成とmappingの断片化で増える。</p>
+<p>実行中はAへの書き込みを拒否する。W/Sはactive bankへの書き込みを拒否し、inactive bankだけ受け付ける。これにより次のweight tileを準備できる。Aは二重化していないので、次のtoken chunkへ移るA loadまで完全に隠せる設計ではない。</p>
+<p>validity bitmapにより、reset後に一度も初期化していないaddressを使うコマンドを拒否する。一方、以前のtileのデータが残っているかまで追跡するgeneration管理ではない。ホストはbank所有権、データ版、必要な全wordの更新を管理する。最後のloadと同じedgeにcommandを出すのではなく、load完了後の次cycle以降にcommitする。</p>
+<p>resetはvalidityとpipelineを消すが、BRAM内容の物理的消去を保証しない。メモリは再loadしてから利用する。</p>
+<h3>6. 実装済みインターフェース</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>ポート群</th>
+  <th>契約</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>A load</td>
+  <td>a_valid/a_ready、block address、B×L×INT8</td>
+</tr>
+<tr>
+  <td>W load</td>
+  <td>w_valid/w_ready、bank、block address、R×L×2 bits</td>
+</tr>
+<tr>
+  <td>S load</td>
+  <td>s_valid/s_ready、bank、group address、R×32-bit config</td>
+</tr>
+<tr>
+  <td>command</td>
+  <td>valid/ready、bank、K、rows、batch、16-bit tag</td>
+</tr>
+<tr>
+  <td>status</td>
+  <td>busy、1-cycle done、status code</td>
+</tr>
+<tr>
+  <td>output</td>
+  <td>valid/ready、B×R×INT64、error、tag</td>
+</tr>
+</tbody>
+</table></div>
+<p>statusは0=正常、1=shape不正、2=初期化不足、3=数値/encoding error。busy中の新commandはreadyが下がる。タグはaccepted commandのものを最後まで保持する。</p>
+<h3>7. OpenTernaryからの変換</h3>
+<p>元のpacking契約は要素0がbyte[7:6]で、byte単位の順序とは別に決まる。内部512-bit busではbyte0をbits[7:0]へ置き、そのbyteの上位2 bitsから読む。<code>sim/rtl.py</code> とbus image exporterが同じ規約を使用する。</p>
+<p>元checkpointを無条件でそのままDMAできるという意味ではない。元のtensorを検証してから、[K block][row][lane]へ並べ替える。内部rowやtokenの余白はmask付きで埋める。元ファイルの末尾padding <code>00</code> と、内部の無効要素を論理zeroで埋める操作を混同しない。</p>
+<p>FP32 scaleは、元のまま保存して数値比較の基準とする。ハードウェアへ送るものは別形式のm/shiftであり、変換の誤差を計算してから採用する。rotationレシピが入力変換を要求する場合は、変換済みとの明示がなければcompilerが拒否する。HadamardやTWLAの入力変換を「重みが三値だから不要」として削除しない。</p>
+<h3>8. 大きい行列への拡張</h3>
+<p><code>model/compiler.py</code> はBを4、Rを16、Kを4096単位に分割する。Kの切れ目はG128境界に合わせ、全K tileで同じrow output unitを保持する。tileごとにunitを再計算すると加算できなくなるため禁止する。K tileのINT64部分出力をホストで合算し、INT32/INT8への飽和・再量子化は最後に行う。</p>
+<p>実装した順序はtoken chunk→K tile→row tileで、Aを出力行間で再利用しやすい。デバッグ用CXXRTL transportは再現性のためAも毎回loadする。実運用のDMAループは未実装なので、理論的な再利用と現在のデバッグ転送量を別に測る。</p>
+<h3>9. 完成系TPUのシステム設計：ここからは未統合</h3>
+<pre><code class="language-text">OpenTernary checkpoint + recipe
+             │
+      model compiler/runtime
+             │
+   descriptor ring / dependency scoreboard
+             │
+     AXI DMA + tile-layout adapter
+       ┌─────┴────────────────────────┐
+       ▼                              ▼
+ TPC-X1 ternary tensor cluster    INT8 DSP matrix engine
+       │                       (Attention / nonternary head)
+       └───────────┬──────────────────┘
+                   ▼
+  vector unit: RMSNorm / RoPE / SiLU / requantization
+                   │
+       online softmax / tiled KV cache
+                   │
+                  DDR
+</code></pre>
+<p>AXI load/execute/storeは独立queueにし、bank generationと依存関係をscoreboardで管理する。K sliceやrow tileごとにCPUへ戻らず、descriptorのloop boundsをハードウェアが展開する。DDRの公称帯域を足し算で増やすことはできないため、複数AXI portでもメモリ全体の上限を共通予算にする。</p>
+<p>Attentionには三値化されていないQ×K、score×Vが残る。INT8 DSP経路を別に用意し、stable online softmaxとKV blockingで中間N×N行列のDDR往復を抑える。これは設計方針であり、このZIPに完成したAttention RTLが入っているという意味ではない。RMSNorm、RoPE、SiLU、embedding、LM headのprecision・近似誤差もモデルごとに検証する。</p>
+<p>FPGA全資源をternary coreだけで埋めず、control、DMA、SFU、Attention、clock/routeの余裕を残す。今回の合成値が小さく見えても、未統合機能の面積をゼロとして全体を比較しない。</p>
+<h3>10. ASICへの移植方針</h3>
+<p>計算RTLとmemory interfaceを分離したため、SRAM macroへ置き換える余地がある。ただしFPGAのLUT数からnm世代のASIC mm²、W、量産価格を直接推定しない。標準セル、SRAM macro、STA corners、clock tree、DFT、IR drop、EM、パッケージ、I/O、製造テストを別工程として扱う。今回ASICのGDS、製造依頼、実物チップは作成していない。</p>
+<hr />
+<h2 id="section-7">数値・符号・パッキング契約</h2>
+<h3>演算の定義</h3>
+<p>Aは <code>[B,K]</code> signed INT8、Qは <code>[R,K]</code> の三値列。group gの整数和は</p>
+<p><code>d[b,r,g] = sum_k A[b,k] * Q[r,k]</code>。</p>
+<p>FP32 weight scaleを <code>sw[r,g]</code>、token activation scaleを <code>sa[b]</code> とすると、基準となる実数出力は <code>sa[b] * sum_g sw[r,g] * d[b,r,g]</code> となる。これは元BF16モデルとの一致を意味せず、既に量子化された表現を実行する基準である。</p>
+<p>各rowに共通の正のunit <code>u[r]</code> を選び、<code>sw/u ≈ m * 2^-shift</code> とする。mは0..65535、shiftは0..31。本機は</p>
+<p><code>Y64[b,r] = sum_g RNE(d[b,r,g] * m[r,g] / 2^shift[r,g])</code></p>
+<p>を計算する。実数へ戻すときは <code>Y64 * u[r] * sa[b]</code>。groupごとにunitを変えた整数をそのまま加算してはいけない。</p>
+<h3>必要なbit幅</h3>
+<p><code>-128 × -1 = +128</code> のためproductはINT9。L16の部分和は最大絶対値2048。G128のgroup和は最大絶対値16384で、signed16 bitsに収まる。MACの外部group形式はINT32とし、scaler入口で範囲を検証してから16 bitsへ狭める。</p>
+<p>scale mantissaはunsigned16なので、signed演算時に先頭zeroを追加して17 bitsとする。GP16×17で33-bit product。INT64の最終累算を使うため、例えばK4096、全A=-128、全Q=-1、m=65535、shift=0でも34,359,214,080を保持する。INT32へ先に落とすと結果が壊れる。</p>
+<h3>RNE：負数も対称に扱う</h3>
+<p><code>abs(product)</code>を除算し、remainderが半分より大きい場合に切り上げ、ちょうど半分なら商が奇数のときだけ切り上げる。その後に符号を戻す。例：1/2→0、3/2→2、-1/2→0、-3/2→-2。単純な算術右shiftや正数だけのbias加算では代用しない。</p>
+<p>最初の実装は64-bit幅で丸めていた。今回、productの実幅33 bitsで丸め、最後だけINT64へsign extendする形に変更した。<code>formal/rne_equivalence.sv</code> は旧64-bit関数と新関数について、すべての33-bit入力と8-bit shift入力で等価であることをSATで検証する。これは全acceleratorの逐次回路証明とは別の局所的な証明である。</p>
+<h3>係数変換誤差</h3>
+<p><code>e[r,g]=abs(sw/u - m*2^-shift)</code> とすれば、整数出力domainでの誤差は保守的に</p>
+<p><code>abs(error[b,r]) &lt;= sum_g (abs(d[b,r,g])*e[r,g] + 0.5)</code>。</p>
+<p>元のactivation量子化、元weightの三値化、rotation近似、float演算順序の差はこの式の対象外。ランダムな数値検証が通ったことを、実モデルの日本語品質やperplexityの維持と読み替えない。underflowは変換時に検出し、黙ってzero化しない。</p>
+<h3>2bit-v1</h3>
+<p><code>00=-1 / 01=0 / 10=+1 / 11=invalid</code>。byteは <code>(c0&lt;&lt;6)|(c1&lt;&lt;4)|(c2&lt;&lt;2)|c3</code>。unused tailは00。<code>[-1,0,+1,-1]</code> は0x18になる。元要素数、dtype、tensor shapeをメタデータとして保持する。strict decoderはused11、余分なbyte、非00paddingを拒否する。</p>
+<h3>T5：可逆の圧縮候補</h3>
+<p>5 tritsを <code>code=sum_i (q[i]+1)*3^i</code> として1 byteに詰める。243通りをすべて保持し、243..255をinvalidとする。4 tritsの81通りを64通りへ削る方式とは異なる。</p>
+<p>G128ごとに独立packingした場合、ceil(128/5)=26 bytes。FP32 scaleの4 bytesを加えると30 bytes、すなわち1.875 bits/weight。2bitの32+4=36 bytesに対するpayload節約は16.7%、同じ帯域で運べる量の倍率は1.2倍。これを「三値演算が1.2倍速くなった」とは呼ばない。</p>
+<p>T5 software codecとdecoder RTL primitiveは実装したが、DMA展開・gearbox・tile transposeは未統合。実装済みacceleratorの転送量は2bit形式で評価する。</p>
+<hr />
+<h2 id="section-8">性能比較と合格ゲート</h2>
+<h3>1. 比較するものを固定する</h3>
+<p>同じcheckpoint revision、tensor fingerprint、量子化recipe、activation precision、KV precision、tokenizer、prompt、生成長、context長、batch、sampling設定を固定する。TeLLMeの0.7B exact checkpointを再現できない間は「TeLLMeを上回った」という判定をしない。別モデルなら別条件として比較表を分ける。</p>
+<p>short-contextの9.51 tokens/sと1024-contextの約8 tokens/sを一つの基準値に混ぜない。prefill 64/128、decodeの各context、batch1/4は別測定にする。batch4の全token合計をbatch1の体感生成速度と比較しない。</p>
+<h3>2. 証拠の階層</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>階層</th>
+  <th>確認できること</th>
+  <th>確認できないこと</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Python/C++ golden</td>
+  <td>数式・整数契約</td>
+  <td>RTLの配線・時系列</td>
+</tr>
+<tr>
+  <td>cycle仕様モデル</td>
+  <td>設計したstall/latencyの振る舞い</td>
+  <td>実際に書いたRTLとの一致</td>
+</tr>
+<tr>
+  <td>CXXRTL</td>
+  <td>Yosysが読んだ実SystemVerilogの二値動作</td>
+  <td>4-state X、metastability、実配線delay</td>
+</tr>
+<tr>
+  <td>SAT局所証明</td>
+  <td>指定した組合せ性質の全入力</td>
+  <td>未指定の全chip性質</td>
+</tr>
+<tr>
+  <td>Yosys technology mapping</td>
+  <td>そのflowの資源構成</td>
+  <td>Vivadoでの適合性・配線後clock・W</td>
+</tr>
+<tr>
+  <td>Vivado実装</td>
+  <td>device指定の配置配線とtiming</td>
+  <td>基板の実電力、完全なLLM品質</td>
+</tr>
+<tr>
+  <td>基板測定</td>
+  <td>clock、帯域、latency、測定境界内の電力</td>
+  <td>別model/別contextへの無条件一般化</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3. 記録する性能</h3>
+<p>kernelはaccepted beat/cycle、terms/cycle、group/tile latency、load/compute/store別cycles、stall原因、weight bytes、scale bytes、activation bytesを記録する。TOPSを使う場合は三値MAC-equivalentで1 term=2 operationsという慣例を明記する。浮動小数点演算ではないのでTFLOPSと呼ばない。</p>
+<p>全体はprefill/TTFT、decode median/p95 latency、tokens/s、最大context、品質指標、CPU占有、基板入力電力とFPGA推定電力を別に出す。ウォームアップ、最低複数run、thermal steady state、clock policy、測定器またはtoolの設定も保存する。</p>
+<p>キャッシュ済みtileの演算時間から、loadと全LLM処理を含む性能を外挿しない。未統合のAttention、KV cache、SFU、ホストのコストをzeroにしない。</p>
+<h3>4. 現在の挑戦目標</h3>
+<p>短いcontextで12 tokens/s、64-token prefill 0.45 s以下、1024 contextで10 tokens/sを目標に設定する。電力はTeLLMeの6.72 Wと同じ測定境界を確定してから評価する。品質悪化の許容値はcheckpointと評価suiteを固定して明文化し、速度のために黙って変更しない。</p>
+<h3>5. 閉じる順序</h3>
+<p>G0：数学、packing、係数誤差、golden比較。</p>
+<p>G1：実RTL compile、seed付きrandom、境界値、stall、reset、bank所有権。</p>
+<p>G2：局所SAT、hot pathの乗算器ゼロ、generic/technology synthesis。</p>
+<p>G3：Vivadoでexact partに対する合成・配置配線・timing closure、clock/reset/CDC/未制約path確認。</p>
+<p>G4：AXI/DMA、データ転送の実測、matched numerical layer、元FP32 scaleとの誤差、メモリ保護。</p>
+<p>G5：完全なモデルのprefill/decode、実品質、同条件の競合比較、電力境界の一致。</p>
+<p>今回の結果は <code>reports/results.json</code> に記録する。未実行をPASSとみなさず、skip数を併記する。G5が閉じない限り、競合超え達成とは判定しない。</p>
+<hr />
+<h2 id="section-9">実機・完成系への統合設計</h2>
+<h3>現在の成果物の境界</h3>
+<p>合成・シミュレーション可能なtile accelerator RTL、CPU golden、tile compiler、bus image exporterを用意した。外部メモリcontroller、AXI DMA、Linux driver、Attention、SFU、LLM runnerは未統合。<code>tpc_accelerator</code> のload portsへ正しいdataを供給することが動作の前提である。</p>
+<h3>Host adapterの仕様案（未実装）</h3>
+<p>制御面はAXI4-Lite等のCSRとし、データ面はburst DMAとする。CSRの候補はCONTROL、STATUS、TAG、K、ROWS/BATCH/BANK、descriptor base、ring head/tail、性能counter。これは現在実装されているaddress mapではない。</p>
+<p>commandのcommit時に全fieldをsnapshotする。実行中にhostがKやbankを書き換えてもin-flight jobへ反映させない。DMAは指定領域・長さ・alignmentを検証し、4 KiB境界、burst長、outstanding数、response error、timeoutに対処する。A/W/Sのgenerationごとにload完了を管理し、依存関係が満たされるまでcomputeを起動しない。</p>
+<p>producer/consumerは別queueとする。CPUはmodel/layer単位のdescriptorを投入し、RTL側のloop engineがrow/K/token tileへ展開する。現在のPythonドライバはデバッグ用であり、実機でtileごとのPython呼び出しを行って高いtokens/sが出るとは想定しない。</p>
+<h3>メモリ帯域とloop order</h3>
+<p>A-stationaryでは同じ4 token chunkを複数row tileへ再利用しやすいが、次のtoken chunkでWを再loadする。W-stationaryではweight tileを保持してtoken chunkを変えられるが、現在Aはsingle-bufferなのでA更新時に停止が必要になる。64-token prefillに対して、AもWも同時に一度だけ読む前提の性能式は作らない。</p>
+<p>候補の改良はAの二重バッファ、token tileを8/16へ拡張、URAM weight cache、DMA側T5展開。ただしそれぞれclock、LUT/FF、port、bandwidthの再測定が必要。T5の保存payload節約を測定済みのruntime高速化と混同しない。</p>
+<h3>Attention / SFUの役割分担案</h3>
+<p>AttentionのQKとPVはINT8×INT8のDSP経路へ分ける。KVはcontextのtile単位で読み、online softmaxではrunning maxとnormalizerを保持して数値安定性を確保する。RoPE、RMSNorm、SiLU、requantはvector unitへ集約する。これらの近似精度を含め、モデルを最後まで通したときのlogit/perplexityを確認する。</p>
+<p>まずCPU参照とFPGAのoperatorを混在できるruntimeにするが、それは機能確認用。CPU fallbackを残したままの速度が目標に届くかは別に計測する。K26のCPU負荷も記録し、fallback時間を結果から除外しない。</p>
+<h3>FPGA実装順序と停止条件</h3>
+<p>最初は元SystemVerilogをVivadoで再合成する。Yosys出力のprimitive netlistをそのまま実機へ送れると仮定しない。特に今回のmappingにはCARRY4やINVなどの表現が含まれ、UltraScale+向けの最終適合性はvendor flowで確認する必要がある。</p>
+<p>OOCのtiming、実際のSoC wrapperでのtiming、配置配線後のclock、DDRロード時のstallを分ける。4 ns制約に失敗した場合、周波数を下げた値を正式に記録し、論文の250 MHzを達成した扱いにしない。電源・温度・電力の検証は完成した評価ボードの通常運用範囲で行い、電源回路の自作はこの計画の対象外。</p>
+<h3>優先順位</h3>
+<p>P0はvendor implementationとmemory transportの確立。P1は実checkpointの一層をbit-exact固定小数点で通し、scale変換の誤差を評価する。P2はAttention/SFU/LM headを統合し、完全モデルの計測へ移る。P3でmatched競合ベンチマークと電力評価を閉じる。ASIC検討は、この実機情報を得た後に別プロジェクトとして判断する。</p>
+<hr />
+<h2 id="section-10">既知の限界と、まだ達成していないこと</h2>
+<p><strong>このパッケージは完成した基板製品、FPGA bitstream、製造済みTPUではない。競合を超えるLLM tokens/sを実証したものでもない。</strong></p>
+<p>実装は本格的なパイプライン・GEMV/GEMM tile・group scale・scratchpad・ping-pong・command controlを含むが、完全なTransformerの全operatorを含まない。Attention、Softmax、RMSNorm、RoPE、KV cache、embedding/LM head、tokenizer、サンプリング、モデルloaderの実機統合は未了。</p>
+<p>CXXRTLは二値のRTLシミュレーションであり、4-state unknown propagation、CDC、metastability、gate delay、PVT corner、基板のsignal integrityを検証しない。SATは三値product・T5・丸め幅変更という局所組合せ性質のみ。全ての長さのtransaction列に対する全体formal proofではない。</p>
+<p>Yosysのtechnology mappingは資源見積もりの証拠になるが、実際のVivado資源利用率、合法配置、route congestion、Fmax、消費電力の証明にはならない。250 MHz、0.512 TOPS-equivalent、12 tokens/s等の数字は、それぞれ前提付き計算値または目標値であり、実物で測った数字ではない。</p>
+<p>T5はcodecとdecoder primitiveまで。現在のtopへ圧縮streamを直接渡す経路はない。zero weightは結果に0を足すが、cycleを圧縮するzero-skip schedulerではない。したがって、zero率からスピード倍率を自動算出しない。</p>
+<p>FP32 scaleから固定小数点への変換は数値差を生む。今回証明した整数一致は変換後の契約との一致であり、元モデルの品質保持を証明していない。rotationが必要なモデルでは、入力変換を別に実施しなければならない。</p>
+<p>load validityは「初期化済みか」を確認するだけで、過去jobの内容が最新かを自動認識しない。generation管理はhost contractに含まれる。単一clock・同期resetを前提とし、外部busとのCDC wrapperは未実装。</p>
+<p>SDKのcompiled shared libraryはこのLinux x86_64環境用の便宜的成果物で、Windows native向けの配布binaryではない。ソースからの再構築方法をREADMEに記載する。古いbinaryが新しいRTLをテストしてしまわないよう、buildとsource hashを確認する。</p>
+<p>参考研究は著者の一次資料を確認したが、本環境で競合実装を動かしたわけではない。exact checkpointや電力測定境界の不明点を残したまま、同条件比較が成立したとはしない。</p>
+<hr />
+<h2 id="section-11">参考資料</h2>
+<h3>S01 — TeLLMe: An Energy-Efficient Ternary LLM Accelerator for Prefill and Decode on Edge FPGAs</h3>
+<p>arXiv:2504.16266v2, 2025-04-24</p>
+<pre><code class="language-text">https://arxiv.org/pdf/2504.16266v2
+</code></pre>
+<h3>S02 — TerEffic: Highly Efficient Ternary LLM Inference on FPGA</h3>
+<p>arXiv:2502.16473v2, 2025-05-01</p>
+<pre><code class="language-text">https://arxiv.org/pdf/2502.16473v2
+</code></pre>
+<h3>S03 — Hardware Generation and Exploration of Lookup Table-Based Accelerators for 1.58-bit LLM Inference</h3>
+<p>arXiv:2604.25183v1, 2026-04-28</p>
+<pre><code class="language-text">https://arxiv.org/pdf/2604.25183v1
+</code></pre>
+<h3>S04 — KU Leuven MICAS ternary-lut-dse</h3>
+<p>accessed 2026-09-20</p>
+<pre><code class="language-text">https://github.com/KULeuven-MICAS/ternary-lut-dse
+</code></pre>
+<h3>S05 — TERINT-GEMV official repository</h3>
+<p>accessed 2026-09-20</p>
+<pre><code class="language-text">https://github.com/Notre-Dame-HW-SW-Codesign-Lab/TERINT-GEMV
+</code></pre>
+<h3>S06 — Microsoft T-MAC</h3>
+<p>accessed 2026-09-20</p>
+<pre><code class="language-text">https://github.com/microsoft/T-MAC
+</code></pre>
+<h3>S07 — Microsoft BitNet</h3>
+<p>accessed 2026-09-20</p>
+<pre><code class="language-text">https://github.com/microsoft/BitNet
+</code></pre>
+<h3>S08 — fpgasystems/ternaryLLM</h3>
+<p>accessed 2026-09-20</p>
+<pre><code class="language-text">https://github.com/fpgasystems/ternaryLLM
+</code></pre>
+<h3>S09 — Berkeley Gemmini</h3>
+<p>accessed 2026-09-20</p>
+<pre><code class="language-text">https://github.com/ucb-bar/gemmini
+</code></pre>
+<h3>S10 — FINN documentation</h3>
+<p>accessed 2026-09-20</p>
+<pre><code class="language-text">https://finn.readthedocs.io/en/latest/
+</code></pre>
+<h3>S11 — AMD KV260 Starter Kit Product Details DS986</h3>
+<p>DS986 1.3, 2025-06-25</p>
+<pre><code class="language-text">https://docs.amd.com/r/en-US/ds986-kv260-starter-kit/Product-Details
+</code></pre>
+<h3>S12 — OpenTernary canonical packing contract</h3>
+<p>commit 31564aeff6b03a46942ef048715058f4b5cba320</p>
+<pre><code class="language-text">https://github.com/ELRdn/OpenTernary/blob/31564aeff6b03a46942ef048715058f4b5cba320/src/openternary/quant/packing.py
+</code></pre>
+<h3>S13 — Official Yosys toolchain workflow</h3>
+<p>head d0e71cfb7bcafe2b437f3edc1789b69e99ecd55a, 2026-09-13</p>
+<pre><code class="language-text">https://github.com/YosysHQ/yosys/actions/runs/34751481437
+</code></pre>
+<h3>S14 — AMD K26 SOM datasheet DS987</h3>
+<p>accessed 2026-09-20</p>
+<pre><code class="language-text">https://docs.amd.com/r/en-US/ds987-k26-som
+</code></pre>
+</main><footer>2026-09-20 • オフライン閲覧用 • 実行記録の正本は reports/results.json と各 raw log • 実機性能は未測定</footer></body></html>

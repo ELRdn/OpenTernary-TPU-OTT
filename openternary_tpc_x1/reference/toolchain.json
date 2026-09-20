@@ -1,0 +1,35 @@
+{
+  "repository": "YosysHQ/yosys",
+  "source_commit": "d0e71cfb7bcafe2b437f3edc1789b69e99ecd55a",
+  "workflow_run_id": 34751481437,
+  "artifact_id": 10318116385,
+  "artifact_name": "python-wheels-ubuntu-22.04",
+  "archive_filename": "yosys-linux-wheels.zip",
+  "archive_bytes": 175759114,
+  "archive_sha256": "c8af82d026be15410ad484b9ee361a6031dae5c700ffea632a0289fcf87fb0e0",
+  "wheel_filename": "pyosys-0.69.post24-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+  "wheel_sha256": "718eff316d03f9b9e89d336f240735ef1135318ca6c4d8652ca2e738786c16fd",
+  "pyosys_version": "0.69.post24",
+  "python": "3.13.5",
+  "numpy": "2.3.5",
+  "pytest": "9.0.2",
+  "os": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "compiler": "clang++ 17.0.0; g++ 14.2.0 for independent golden",
+  "installation": "pip --no-index --no-deps, from official downloaded wheel",
+  "tools_available": [
+    "Yosys via pyosys",
+    "Yosys ABC9",
+    "CXXRTL",
+    "C++17 compilers",
+    "pytest"
+  ],
+  "tools_not_available": [
+    "Vivado",
+    "physical FPGA board",
+    "Verilator",
+    "Icarus Verilog"
+  ],
+  "network_note": "Direct container apt/pip network unavailable. Official GitHub artifact read/download provided the real toolchain.",
+  "redistribution": "Toolchain archive/wheel excluded from project ZIP. Upstream runtime notice retained for the compiled CXXRTL model.",
+  "retention_note": "GitHub artifacts may expire; source commit above is the durable rebuild reference."
+}

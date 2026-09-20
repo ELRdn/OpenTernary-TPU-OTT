@@ -1,0 +1,70 @@
+{
+  "started_utc": "2026-09-20T08:23:53.827598+00:00",
+  "scope": "ACTUAL_RTL_AND_MODELS",
+  "status": "PASS",
+  "stages": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-shared",
+        "-fPIC",
+        "model/reference.cpp",
+        "-o",
+        "build/libtpc_reference.so"
+      ],
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 0.06781655399981901
+    },
+    {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "scripts/formal_checks.py"
+      ],
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 2.9394353289999344
+    },
+    {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "scripts/check_hot_path.py"
+      ],
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.395959292000043
+    },
+    {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "-m",
+        "pytest",
+        "tests",
+        "-q",
+        "--junitxml=reports/reproduction_pytest.xml"
+      ],
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 64.45456736200003
+    },
+    {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "scripts/analyze_performance.py"
+      ],
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 0.572277449000012
+    }
+  ],
+  "original_snapshot": "reports/results.json",
+  "tests": {
+    "tests": 24,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "finished_utc": "2026-09-20T08:25:05.261078+00:00"
+}

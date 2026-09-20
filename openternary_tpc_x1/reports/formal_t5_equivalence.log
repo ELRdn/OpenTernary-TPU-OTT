@@ -1,0 +1,237 @@
+
+-- Running command `read_verilog -sv rtl/tpc_radix3_decode5.sv formal/t5_equivalence.sv; hierarchy -top t5_equivalence; proc; flatten; opt; memory_map; opt; sat -prove equal 1 -verify -show-inputs' --
+
+1. Executing Verilog-2005 frontend: rtl/tpc_radix3_decode5.sv
+Parsing SystemVerilog input from `rtl/tpc_radix3_decode5.sv' to AST representation.
+Generating RTLIL representation for module `\tpc_radix3_decode5'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: formal/t5_equivalence.sv
+Parsing SystemVerilog input from `formal/t5_equivalence.sv' to AST representation.
+Generating RTLIL representation for module `\t5_equivalence'.
+Successfully finished Verilog frontend.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+
+3.1. Analyzing design hierarchy..
+Top module:  \t5_equivalence
+Used module:     \tpc_radix3_decode5
+
+3.2. Analyzing design hierarchy..
+Top module:  \t5_equivalence
+Used module:     \tpc_radix3_decode5
+Removed 0 unused modules.
+
+4. Executing PROC pass (convert processes to netlists).
+
+4.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+4.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$rtl/tpc_radix3_decode5.sv:5$1 in module tpc_radix3_decode5.
+Removed a total of 0 dead cases.
+
+4.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 2 assignments to connections.
+
+4.4. Executing PROC_INIT pass (extract init attributes).
+
+4.5. Executing PROC_ARST pass (detect async resets in processes).
+
+4.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 1 switch.
+
+4.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\tpc_radix3_decode5.$proc$rtl/tpc_radix3_decode5.sv:5$1'.
+     1/1: { $1\codes[9:0] $1\invalid[0:0] }
+
+4.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\tpc_radix3_decode5.\codes' from process `\tpc_radix3_decode5.$proc$rtl/tpc_radix3_decode5.sv:5$1'.
+No latch inferred for signal `\tpc_radix3_decode5.\invalid' from process `\tpc_radix3_decode5.$proc$rtl/tpc_radix3_decode5.sv:5$1'.
+
+4.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+4.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+4.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\tpc_radix3_decode5.$proc$rtl/tpc_radix3_decode5.sv:5$1'.
+Removing empty process `tpc_radix3_decode5.$proc$rtl/tpc_radix3_decode5.sv:5$1'.
+Cleaned up 1 empty switch.
+
+4.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module t5_equivalence.
+Optimizing module tpc_radix3_decode5.
+
+5. Executing FLATTEN pass (flatten design).
+Deleting now unused module tpc_radix3_decode5.
+<suppressed ~1 debug messages>
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module t5_equivalence.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\t5_equivalence'.
+Computing hashes of 28 cells of `\t5_equivalence'.
+Finding duplicate cells in `\t5_equivalence'.
+Removed a total of 0 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \t5_equivalence..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \t5_equivalence.
+Performed a total of 0 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\t5_equivalence'.
+Computing hashes of 28 cells of `\t5_equivalence'.
+Finding duplicate cells in `\t5_equivalence'.
+Removed a total of 0 cells.
+
+6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \t5_equivalence..
+Removed 0 unused cells and 8 unused wires.
+<suppressed ~1 debug messages>
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module t5_equivalence.
+
+6.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \t5_equivalence..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~2 debug messages>
+
+6.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \t5_equivalence.
+Performed a total of 0 changes.
+
+6.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\t5_equivalence'.
+Computing hashes of 28 cells of `\t5_equivalence'.
+Finding duplicate cells in `\t5_equivalence'.
+Removed a total of 0 cells.
+
+6.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \t5_equivalence..
+
+6.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module t5_equivalence.
+
+6.16. Finished fast OPT passes. (There is nothing left to do.)
+
+7. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+Mapping memory $flatten\dut.$auto$proc_rom.cc:155:do_switch$28 in module \t5_equivalence:
+  created 256 $dff cells and 0 static cells of width 11.
+  read interface: 0 $dff and 255 $mux cells.
+  write interface: 0 write mux blocks.
+
+8. Executing OPT pass (performing simple optimizations).
+
+8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module t5_equivalence.
+<suppressed ~10 debug messages>
+
+8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\t5_equivalence'.
+Computing hashes of 271 cells of `\t5_equivalence'.
+Finding duplicate cells in `\t5_equivalence'.
+Removed a total of 0 cells.
+
+8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \t5_equivalence..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~248 debug messages>
+
+8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \t5_equivalence.
+Performed a total of 0 changes.
+
+8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\t5_equivalence'.
+Computing hashes of 271 cells of `\t5_equivalence'.
+Finding duplicate cells in `\t5_equivalence'.
+Removed a total of 0 cells.
+
+8.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \t5_equivalence..
+Removed 0 unused cells and 266 unused wires.
+<suppressed ~1 debug messages>
+
+8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module t5_equivalence.
+
+8.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+8.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \t5_equivalence..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~248 debug messages>
+
+8.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \t5_equivalence.
+Performed a total of 0 changes.
+
+8.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\t5_equivalence'.
+Computing hashes of 271 cells of `\t5_equivalence'.
+Finding duplicate cells in `\t5_equivalence'.
+Removed a total of 0 cells.
+
+8.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+8.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \t5_equivalence..
+
+8.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module t5_equivalence.
+
+8.16. Finished fast OPT passes. (There is nothing left to do.)
+
+9. Executing SAT pass (solving SAT problems in the circuit).
+Using SAT solver `minisat`.
+
+Setting up SAT problem:
+Final constraint equation: { } = { }
+Imported 271 cells to SAT database.
+Import proof-constraint: \equal = 1'1
+Final proof equation: \equal = 1'1
+Import show expression: \byte_in
+
+Solving problem with 16062 variables and 42592 clauses..
+SAT proof finished - no model found: SUCCESS!
+
+                  /$$$$$$      /$$$$$$$$     /$$$$$$$    
+                 /$$__  $$    | $$_____/    | $$__  $$   
+                | $$  \ $$    | $$          | $$  \ $$   
+                | $$  | $$    | $$$$$       | $$  | $$   
+                | $$  | $$    | $$__/       | $$  | $$   
+                | $$/$$ $$    | $$          | $$  | $$   
+                |  $$$$$$/ /$$| $$$$$$$$ /$$| $$$$$$$//$$
+                 \____ $$$|__/|________/|__/|_______/|__/
+                       \__/                              
+

@@ -1,0 +1,1 @@
+clang++ -std=c++17 -O1 -g0 -DNDEBUG -Wno-shift-count-overflow -Wno-array-bounds -shared -fPIC -I/opt/pyvenv/lib/python3.13/site-packages/pyosys/share/include/backends/cxxrtl/runtime sim/cxxrtl_driver.cpp -o build/libtpc_rtl_optimized.so

@@ -1,0 +1,258 @@
+{
+   "creator": "Yosys 0.69+24 (git sha1 d0e71cfb7, Release, GNU /opt/rh/gcc-toolset-14/root/usr/bin/c++ 14.2.1)",
+   "invocation": "stat -json -tech xilinx ",
+   "modules": {
+      "$paramod$15da257c02d4cf962b719cacd2fc159810775119\\tpc_group_scale": {
+         "num_wires":         45127,
+         "num_wire_bits":     126427,
+         "num_pub_wires":     555,
+         "num_pub_wire_bits": 27476,
+         "num_ports":         15,
+         "num_port_bits":     6698,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         51081,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "CARRY4": 3568,
+            "DSP48E2": 64,
+            "FDRE": 14587,
+            "INV": 2288,
+            "LUT1": 17,
+            "LUT2": 7946,
+            "LUT3": 11802,
+            "LUT4": 3968,
+            "LUT5": 2601,
+            "LUT6": 4177,
+            "MUXF7": 42,
+            "MUXF8": 21
+         },
+         "estimated_num_lc": 22548
+      },
+      "$paramod$838ca739f4acde1a2f9bc72d8390d678f77e6423\\tpc_stream_engine": {
+         "num_wires":         34,
+         "num_wire_bits":     8300,
+         "num_pub_wires":     29,
+         "num_pub_wire_bits": 8295,
+         "num_ports":         20,
+         "num_port_bits":     5711,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         6,
+         "num_submodules":       3,
+         "num_cells_by_type": {
+            "LUT2": 3,
+            "LUT3": 2,
+            "LUT4": 1,
+            "$paramod$15da257c02d4cf962b719cacd2fc159810775119\\tpc_group_scale": 1,
+            "$paramod$97ff5ac4075631795208b679e578d456b31f3722\\tpc_tile_mac": 1,
+            "$paramod$a199995f0fdb877c813cd6e3e0aa41487e2f8d2f\\tpc_sync_fifo": 1
+         },
+         "estimated_num_lc": 35315
+      },
+      "$paramod$8bfa0443b4fe758aea82f0591810a745d08bafef\\tpc_sdp_ram": {
+         "num_wires":         8,
+         "num_wire_bits":     1079,
+         "num_pub_wires":     7,
+         "num_pub_wire_bits": 1043,
+         "num_ports":         7,
+         "num_port_bits":     1043,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         15,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "RAMB18E2": 15
+         },
+         "estimated_num_lc": 0
+      },
+      "$paramod$97ff5ac4075631795208b679e578d456b31f3722\\tpc_tile_mac": {
+         "num_wires":         6606,
+         "num_wire_bits":     21679,
+         "num_pub_wires":     223,
+         "num_pub_wire_bits": 9909,
+         "num_ports":         17,
+         "num_port_bits":     3149,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         10197,
+         "num_submodules":       64,
+         "num_cells_by_type": {
+            "CARRY4": 512,
+            "FDRE": 4216,
+            "LUT2": 3140,
+            "LUT3": 2204,
+            "LUT4": 37,
+            "LUT5": 67,
+            "LUT6": 21,
+            "$paramod\\tpc_dot_pipe\\LANES=s32'00000000000000000000000000010000": 64
+         },
+         "estimated_num_lc": 16667
+      },
+      "$paramod$a199995f0fdb877c813cd6e3e0aa41487e2f8d2f\\tpc_sync_fifo": {
+         "num_wires":         31,
+         "num_wire_bits":     1079,
+         "num_pub_wires":     13,
+         "num_pub_wire_bits": 1043,
+         "num_ports":         8,
+         "num_port_bits":     1034,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         61,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "CARRY4": 1,
+            "FDRE": 9,
+            "LUT2": 4,
+            "LUT3": 3,
+            "LUT4": 3,
+            "LUT5": 1,
+            "LUT6": 3,
+            "RAM32M16": 37
+         },
+         "estimated_num_lc": 10
+      },
+      "$paramod$bf2534eb178c1ea96cc03fe54263b41cfe156ae4\\tpc_sdp_ram": {
+         "num_wires":         8,
+         "num_wire_bits":     1075,
+         "num_pub_wires":     7,
+         "num_pub_wire_bits": 1039,
+         "num_ports":         7,
+         "num_port_bits":     1039,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         15,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "RAMB18E2": 15
+         },
+         "estimated_num_lc": 0
+      },
+      "$paramod$bff0a2e333060a0125f681c79bb24b9e647d9672\\tpc_sdp_ram": {
+         "num_wires":         8,
+         "num_wire_bits":     1081,
+         "num_pub_wires":     7,
+         "num_pub_wire_bits": 1045,
+         "num_ports":         7,
+         "num_port_bits":     1045,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         15,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "RAMB18E2": 15
+         },
+         "estimated_num_lc": 0
+      },
+      "$paramod\\tpc_dot_pipe\\LANES=s32'00000000000000000000000000010000": {
+         "num_wires":         437,
+         "num_wire_bits":     1189,
+         "num_pub_wires":     69,
+         "num_pub_wire_bits": 675,
+         "num_ports":         6,
+         "num_port_bits":     210,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         497,
+         "num_submodules":       16,
+         "num_cells_by_type": {
+            "CARRY4": 46,
+            "FDRE": 305,
+            "LUT2": 146,
+            "tpc_ternary_product": 16
+         },
+         "estimated_num_lc": 217
+      },
+      "\\tpc_accelerator": {
+         "num_wires":         2979,
+         "num_wire_bits":     13721,
+         "num_pub_wires":     59,
+         "num_pub_wire_bits": 8247,
+         "num_ports":         31,
+         "num_port_bits":     5727,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         2848,
+         "num_submodules":       4,
+         "num_cells_by_type": {
+            "CARRY4": 310,
+            "FDRE": 926,
+            "INV": 42,
+            "LUT2": 161,
+            "LUT3": 31,
+            "LUT4": 179,
+            "LUT5": 1037,
+            "LUT6": 162,
+            "$paramod$838ca739f4acde1a2f9bc72d8390d678f77e6423\\tpc_stream_engine": 1,
+            "$paramod$8bfa0443b4fe758aea82f0591810a745d08bafef\\tpc_sdp_ram": 1,
+            "$paramod$bf2534eb178c1ea96cc03fe54263b41cfe156ae4\\tpc_sdp_ram": 1,
+            "$paramod$bff0a2e333060a0125f681c79bb24b9e647d9672\\tpc_sdp_ram": 1
+         },
+         "estimated_num_lc": 36699
+      },
+      "\\tpc_ternary_product": {
+         "num_wires":         29,
+         "num_wire_bits":     77,
+         "num_pub_wires":     6,
+         "num_pub_wire_bits": 30,
+         "num_ports":         5,
+         "num_port_bits":     21,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         19,
+         "num_submodules":       0,
+         "num_cells_by_type": {
+            "CARRY4": 2,
+            "INV": 7,
+            "LUT3": 2,
+            "LUT5": 8
+         },
+         "estimated_num_lc": 10
+      }
+   },
+      "design": {
+         "num_wires":         112465,
+         "num_wire_bits":     329385,
+         "num_pub_wires":     11460,
+         "num_pub_wire_bits": 132017,
+         "num_ports":         5616,
+         "num_port_bits":     60390,
+         "num_memories":      0,
+         "num_memory_bits":   0,
+         "num_processes":     0,
+         "num_cells":         115502,
+         "num_submodules":       4,
+         "num_cells_by_type": {
+            "CARRY4": 9383,
+            "DSP48E2": 64,
+            "FDRE": 39258,
+            "INV": 9498,
+            "LUT1": 17,
+            "LUT2": 20598,
+            "LUT3": 16090,
+            "LUT4": 4188,
+            "LUT5": 11898,
+            "LUT6": 4363,
+            "MUXF7": 42,
+            "MUXF8": 21,
+            "RAM32M16": 37,
+            "RAMB18E2": 45,
+            "$paramod$838ca739f4acde1a2f9bc72d8390d678f77e6423\\tpc_stream_engine": 1,
+            "$paramod$8bfa0443b4fe758aea82f0591810a745d08bafef\\tpc_sdp_ram": 1,
+            "$paramod$bf2534eb178c1ea96cc03fe54263b41cfe156ae4\\tpc_sdp_ram": 1,
+            "$paramod$bff0a2e333060a0125f681c79bb24b9e647d9672\\tpc_sdp_ram": 1
+         },
+         "estimated_num_lc": 36699
+      }
+}
+

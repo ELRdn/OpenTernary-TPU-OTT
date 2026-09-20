@@ -1,0 +1,12 @@
+{
+  "top": "tpc_tile_mac",
+  "pass": true,
+  "proof": "Yosys flattened generic structural cell exclusion",
+  "forbidden_cell_types": [
+    "$mul",
+    "$macc",
+    "$div",
+    "$mod"
+  ],
+  "scope_excludes_group_scale": true
+}

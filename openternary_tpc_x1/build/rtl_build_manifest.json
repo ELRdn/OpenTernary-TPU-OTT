@@ -1,0 +1,21 @@
+{
+  "source_hashes": {
+    "rtl/tpc_accelerator.sv": "ed4519719a9f0722b0678c35606838f25549ce700f7b622f2a8887ee1be207f2",
+    "rtl/tpc_dot_pipe.sv": "7ea7720d5baa0c7838005c783c9d4bca33d81ac9f5fae8f8a3180da67de54aac",
+    "rtl/tpc_group_scale.sv": "20eb59ad499ff0821fb1a0a4021f74893d33a4381e7a28913bf94b6b77c54b93",
+    "rtl/tpc_radix3_decode5.sv": "de74927a88d688f1bb54ff59b9486ffb2f65d964afa3d2add119d2d36ca6f0d2",
+    "rtl/tpc_sdp_ram.sv": "d52773ce5018ea52ffd5261ebffa9e73c855f2f2524c8766583e7897bab352f9",
+    "rtl/tpc_stream_engine.sv": "123c899b78fd0385ae0d0abd6d3da374773e9e340ef8b2153c1a380a2341fe27",
+    "rtl/tpc_sync_fifo.sv": "09185cc3bd00d3ca7f4797b7771bd091fcd7865da0ed40a6263eaa90ddffa1e0",
+    "rtl/tpc_ternary_product.sv": "09b060eaa4768e258a365ae54a9a3ac2cc6bd73784d61150b346fee7a20e8aa1",
+    "rtl/tpc_tile_mac.sv": "22823650f04e0a22545959b0b46f39f5ba48182d1f941321688352a103029c99",
+    "sim/cxxrtl_driver.cpp": "223519f96df672cacd68bcdaa4ebe6352a11099d3ea01191880b85cdc6996ac2"
+  },
+  "library_sha256": "51f04980af87e0d9a26cce8593c7dd26c9c7b2edb91c0e5b838e9f1864aa2576",
+  "pyosys_version": "0.69.post24",
+  "backend": "Yosys CXXRTL, noflatten -O2 -g0, clang++ -O1",
+  "source_generation_and_compilation_logs": [
+    "reports/cxxrtl_generation.log",
+    "reports/cxxrtl_optimized_compile.log"
+  ]
+}

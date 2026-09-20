@@ -1,0 +1,217 @@
+
+-- Running command `read_verilog -sv rtl/tpc_ternary_product.sv formal/product_equivalence.sv; hierarchy -top product_equivalence; proc; flatten; opt; memory_map; opt; sat -prove equal 1 -verify -show-inputs' --
+
+1. Executing Verilog-2005 frontend: rtl/tpc_ternary_product.sv
+Parsing SystemVerilog input from `rtl/tpc_ternary_product.sv' to AST representation.
+Generating RTLIL representation for module `\tpc_ternary_product'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: formal/product_equivalence.sv
+Parsing SystemVerilog input from `formal/product_equivalence.sv' to AST representation.
+Generating RTLIL representation for module `\product_equivalence'.
+Successfully finished Verilog frontend.
+
+3. Executing HIERARCHY pass (managing design hierarchy).
+
+3.1. Analyzing design hierarchy..
+Top module:  \product_equivalence
+Used module:     \tpc_ternary_product
+
+3.2. Analyzing design hierarchy..
+Top module:  \product_equivalence
+Used module:     \tpc_ternary_product
+Removed 0 unused modules.
+
+4. Executing PROC pass (convert processes to netlists).
+
+4.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+4.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 2 switch rules as full_case in process $proc$rtl/tpc_ternary_product.sv:7$1 in module tpc_ternary_product.
+Removed a total of 0 dead cases.
+
+4.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 2 assignments to connections.
+
+4.4. Executing PROC_INIT pass (extract init attributes).
+
+4.5. Executing PROC_ARST pass (detect async resets in processes).
+
+4.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~2 debug messages>
+
+4.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\tpc_ternary_product.$proc$rtl/tpc_ternary_product.sv:7$1'.
+     1/4: $2\product[8:0]
+     2/4: $2\invalid[0:0]
+     3/4: $1\invalid[0:0]
+     4/4: $1\product[8:0]
+
+4.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\tpc_ternary_product.\product' from process `\tpc_ternary_product.$proc$rtl/tpc_ternary_product.sv:7$1'.
+No latch inferred for signal `\tpc_ternary_product.\invalid' from process `\tpc_ternary_product.$proc$rtl/tpc_ternary_product.sv:7$1'.
+
+4.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+4.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+4.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 2 empty switches in `\tpc_ternary_product.$proc$rtl/tpc_ternary_product.sv:7$1'.
+Removing empty process `tpc_ternary_product.$proc$rtl/tpc_ternary_product.sv:7$1'.
+Cleaned up 2 empty switches.
+
+4.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module product_equivalence.
+<suppressed ~1 debug messages>
+Optimizing module tpc_ternary_product.
+<suppressed ~2 debug messages>
+
+5. Executing FLATTEN pass (flatten design).
+Deleting now unused module tpc_ternary_product.
+<suppressed ~1 debug messages>
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module product_equivalence.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\product_equivalence'.
+Computing hashes of 24 cells of `\product_equivalence'.
+Finding duplicate cells in `\product_equivalence'.
+Computing hashes of 20 cells of `\product_equivalence'.
+Finding duplicate cells in `\product_equivalence'.
+<suppressed ~12 debug messages>
+Removed a total of 4 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \product_equivalence..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $flatten\dut.$procmux$19.
+    dead port 2/2 on $mux $flatten\dut.$procmux$27.
+Removed 2 multiplexer ports.
+<suppressed ~13 debug messages>
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \product_equivalence.
+    New ctrl vector for $pmux cell $flatten\dut.$procmux$23: $auto$opt_reduce.cc:137:opt_pmux$37
+  Optimizing cells in module \product_equivalence.
+Performed a total of 1 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\product_equivalence'.
+Computing hashes of 19 cells of `\product_equivalence'.
+Finding duplicate cells in `\product_equivalence'.
+Removed a total of 0 cells.
+
+6.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \product_equivalence..
+Removed 0 unused cells and 21 unused wires.
+<suppressed ~1 debug messages>
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module product_equivalence.
+
+6.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \product_equivalence..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~11 debug messages>
+
+6.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \product_equivalence.
+Performed a total of 0 changes.
+
+6.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\product_equivalence'.
+Computing hashes of 19 cells of `\product_equivalence'.
+Finding duplicate cells in `\product_equivalence'.
+Removed a total of 0 cells.
+
+6.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \product_equivalence..
+
+6.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module product_equivalence.
+
+6.16. Finished fast OPT passes. (There is nothing left to do.)
+
+7. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+8. Executing OPT pass (performing simple optimizations).
+
+8.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module product_equivalence.
+
+8.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\product_equivalence'.
+Computing hashes of 19 cells of `\product_equivalence'.
+Finding duplicate cells in `\product_equivalence'.
+Removed a total of 0 cells.
+
+8.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \product_equivalence..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~11 debug messages>
+
+8.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \product_equivalence.
+Performed a total of 0 changes.
+
+8.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\product_equivalence'.
+Computing hashes of 19 cells of `\product_equivalence'.
+Finding duplicate cells in `\product_equivalence'.
+Removed a total of 0 cells.
+
+8.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+8.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \product_equivalence..
+
+8.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module product_equivalence.
+
+8.9. Finished fast OPT passes. (There is nothing left to do.)
+
+9. Executing SAT pass (solving SAT problems in the circuit).
+Using SAT solver `minisat`.
+
+Setting up SAT problem:
+Final constraint equation: { } = { }
+Imported 19 cells to SAT database.
+Import proof-constraint: \equal = 1'1
+Final proof equation: \equal = 1'1
+Import show expression: \enabled
+Import show expression: \code
+Import show expression: \x
+
+Solving problem with 1397 variables and 4041 clauses..
+SAT proof finished - no model found: SUCCESS!
+
+                  /$$$$$$      /$$$$$$$$     /$$$$$$$    
+                 /$$__  $$    | $$_____/    | $$__  $$   
+                | $$  \ $$    | $$          | $$  \ $$   
+                | $$  | $$    | $$$$$       | $$  | $$   
+                | $$  | $$    | $$__/       | $$  | $$   
+                | $$/$$ $$    | $$          | $$  | $$   
+                |  $$$$$$/ /$$| $$$$$$$$ /$$| $$$$$$$//$$
+                 \____ $$$|__/|________/|__/|_______/|__/
+                       \__/                              
+

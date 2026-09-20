@@ -1,0 +1,14 @@
+{
+  "kind": "ACTUAL_YOSYS_CXXRTL_SYSTEMVERILOG",
+  "seed": 2026092081,
+  "randomized_commands": 1000,
+  "output_values_checked": 64000,
+  "active_ternary_products_checked": 3194727,
+  "command_to_consume_cycles_sum": 20243,
+  "max_command_cycles": 266,
+  "all_bus_cycles_including_load_reset": 31083,
+  "output_backpressure": true,
+  "both_weight_banks": true,
+  "four_state_x_propagation": false,
+  "fpga_hardware_measured": false
+}

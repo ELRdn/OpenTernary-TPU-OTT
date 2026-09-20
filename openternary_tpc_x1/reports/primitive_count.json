@@ -1,0 +1,20 @@
+{
+  "counting_method": "recursive top-down primitive leaf count from Yosys mapped JSON",
+  "top": "tpc_accelerator",
+  "cells": {
+    "LUT6": 4771,
+    "LUT5": 12880,
+    "LUT3": 15305,
+    "LUT2": 19482,
+    "LUT4": 4123,
+    "INV": 9498,
+    "CARRY4": 9191,
+    "FDRE": 37274,
+    "RAMB18E2": 45,
+    "RAM32M16": 37,
+    "MUXF7": 27,
+    "MUXF8": 12,
+    "DSP48E2": 64
+  },
+  "LUT1_to_LUT6_sum": 56561
+}

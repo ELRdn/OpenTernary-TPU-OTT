@@ -1,0 +1,40 @@
+{
+  "seconds": 304.2138247489929,
+  "stages": [
+    {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "scripts/yosys_driver.py",
+        "read_verilog -sv rtl/*.sv; hierarchy -check -top tpc_accelerator; proc; opt; memory_collect; check -assert; write_cxxrtl -noflatten -O2 -g0 -header build/accelerator.cc"
+      ],
+      "exit_code": 0,
+      "seconds": 13.527482748031616
+    },
+    {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "scripts/compile_optimized.py"
+      ],
+      "exit_code": 0,
+      "seconds": 75.82732582092285
+    },
+    {
+      "command": [
+        "/opt/pyvenv/bin/python",
+        "-m",
+        "pytest",
+        "tests/test_rtl.py",
+        "-q",
+        "--junitxml=reports/rtl_pytest.xml"
+      ],
+      "exit_code": 0,
+      "seconds": 52.26715660095215
+    },
+    {
+      "command": [
+        "scripts/synth_xcup.py"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

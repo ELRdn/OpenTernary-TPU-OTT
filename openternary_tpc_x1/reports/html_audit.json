@@ -1,0 +1,18 @@
+{
+  "desktop": {
+    "viewport": 1440,
+    "documentWidth": 1440,
+    "tables": 5,
+    "headings": 11,
+    "title": "OpenTernary TPC-X1 — 設計・実装・検証レポート",
+    "scripts": 0
+  },
+  "mobile": {
+    "viewport": 390,
+    "documentWidth": 390,
+    "tables": 5,
+    "headings": 11,
+    "title": "OpenTernary TPC-X1 — 設計・実装・検証レポート",
+    "scripts": 0
+  }
+}

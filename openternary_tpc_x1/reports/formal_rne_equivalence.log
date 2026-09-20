@@ -1,0 +1,275 @@
+
+-- Running command `read_verilog -sv formal/rne_equivalence.sv; hierarchy -top rne_equivalence; proc; flatten; opt; memory_map; opt; sat -prove equal 1 -verify -show-inputs' --
+
+1. Executing Verilog-2005 frontend: formal/rne_equivalence.sv
+Parsing SystemVerilog input from `formal/rne_equivalence.sv' to AST representation.
+Generating RTLIL representation for module `\rne_equivalence'.
+Successfully finished Verilog frontend.
+
+2. Executing HIERARCHY pass (managing design hierarchy).
+
+2.1. Analyzing design hierarchy..
+Top module:  \rne_equivalence
+
+2.2. Analyzing design hierarchy..
+Top module:  \rne_equivalence
+Removed 0 unused modules.
+
+3. Executing PROC pass (convert processes to netlists).
+
+3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 3 switch rules as full_case in process $proc$formal/rne_equivalence.sv:44$44 in module rne_equivalence.
+Marked 3 switch rules as full_case in process $proc$formal/rne_equivalence.sv:43$6 in module rne_equivalence.
+Removed a total of 0 dead cases.
+
+3.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 0 redundant assignments.
+Promoted 19 assignments to connections.
+
+3.4. Executing PROC_INIT pass (extract init attributes).
+
+3.5. Executing PROC_ARST pass (detect async resets in processes).
+
+3.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~6 debug messages>
+
+3.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\rne_equivalence.$proc$formal/rne_equivalence.sv:44$44'.
+     1/11: $3\rne_new$func$formal/rne_equivalence.sv:44$4.q[32:0]$81
+     2/11: $2\rne_new$func$formal/rne_equivalence.sv:44$4.$result[32:0]$66
+     3/11: $2\rne_new$func$formal/rne_equivalence.sv:44$4.mask[32:0]$70
+     4/11: $2\rne_new$func$formal/rne_equivalence.sv:44$4.h[32:0]$69
+     5/11: $2\rne_new$func$formal/rne_equivalence.sv:44$4.r[32:0]$68
+     6/11: $2\rne_new$func$formal/rne_equivalence.sv:44$4.q[32:0]$67
+     7/11: $1\rne_new$func$formal/rne_equivalence.sv:44$4.$result[32:0]$60
+     8/11: $1\rne_new$func$formal/rne_equivalence.sv:44$4.mask[32:0]$64
+     9/11: $1\rne_new$func$formal/rne_equivalence.sv:44$4.h[32:0]$63
+    10/11: $1\rne_new$func$formal/rne_equivalence.sv:44$4.r[32:0]$62
+    11/11: $1\rne_new$func$formal/rne_equivalence.sv:44$4.q[32:0]$61
+Creating decoders for process `\rne_equivalence.$proc$formal/rne_equivalence.sv:43$6'.
+     1/11: $3\rne_old$func$formal/rne_equivalence.sv:43$3.q[63:0]$40
+     2/11: $2\rne_old$func$formal/rne_equivalence.sv:43$3.$result[63:0]$25
+     3/11: $2\rne_old$func$formal/rne_equivalence.sv:43$3.mask[63:0]$29
+     4/11: $2\rne_old$func$formal/rne_equivalence.sv:43$3.h[63:0]$28
+     5/11: $2\rne_old$func$formal/rne_equivalence.sv:43$3.r[63:0]$27
+     6/11: $2\rne_old$func$formal/rne_equivalence.sv:43$3.q[63:0]$26
+     7/11: $1\rne_old$func$formal/rne_equivalence.sv:43$3.$result[63:0]$19
+     8/11: $1\rne_old$func$formal/rne_equivalence.sv:43$3.mask[63:0]$23
+     9/11: $1\rne_old$func$formal/rne_equivalence.sv:43$3.h[63:0]$22
+    10/11: $1\rne_old$func$formal/rne_equivalence.sv:43$3.r[63:0]$21
+    11/11: $1\rne_old$func$formal/rne_equivalence.sv:43$3.q[63:0]$20
+
+3.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\rne_equivalence.\rne_new$func$formal/rne_equivalence.sv:44$2.$result' from process `\rne_equivalence.$proc$formal/rne_equivalence.sv:44$44'.
+No latch inferred for signal `\rne_equivalence.\rne_old$func$formal/rne_equivalence.sv:43$1.$result' from process `\rne_equivalence.$proc$formal/rne_equivalence.sv:43$6'.
+
+3.9. Executing PROC_DFF pass (convert process syncs to FFs).
+
+3.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+3.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 3 empty switches in `\rne_equivalence.$proc$formal/rne_equivalence.sv:44$44'.
+Removing empty process `rne_equivalence.$proc$formal/rne_equivalence.sv:44$44'.
+Found and cleaned up 3 empty switches in `\rne_equivalence.$proc$formal/rne_equivalence.sv:43$6'.
+Removing empty process `rne_equivalence.$proc$formal/rne_equivalence.sv:43$6'.
+Cleaned up 6 empty switches.
+
+3.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rne_equivalence.
+<suppressed ~2 debug messages>
+
+4. Executing FLATTEN pass (flatten design).
+
+5. Executing OPT pass (performing simple optimizations).
+
+5.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rne_equivalence.
+
+5.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rne_equivalence'.
+Computing hashes of 73 cells of `\rne_equivalence'.
+Finding duplicate cells in `\rne_equivalence'.
+Computing hashes of 70 cells of `\rne_equivalence'.
+Finding duplicate cells in `\rne_equivalence'.
+<suppressed ~9 debug messages>
+Removed a total of 3 cells.
+
+5.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rne_equivalence..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+      Replacing known input bits on port A of cell $ternary$formal/rne_equivalence.sv:30$56: \value -> { 1'0 \value [31:0] }
+      Replacing known input bits on port A of cell $ternary$formal/rne_equivalence.sv:8$17: { \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value [32] \value } -> { 32'00000000000000000000000000000000 \value [31:0] }
+  Analyzing evaluation results.
+    dead port 1/2 on $mux $procmux$182.
+    dead port 2/2 on $mux $procmux$182.
+    dead port 1/2 on $mux $procmux$176.
+    dead port 2/2 on $mux $procmux$176.
+    dead port 1/2 on $mux $procmux$173.
+    dead port 2/2 on $mux $procmux$173.
+    dead port 1/2 on $mux $procmux$170.
+    dead port 2/2 on $mux $procmux$170.
+    dead port 1/2 on $mux $procmux$167.
+    dead port 2/2 on $mux $procmux$167.
+    dead port 1/2 on $mux $procmux$164.
+    dead port 2/2 on $mux $procmux$164.
+    dead port 1/2 on $mux $procmux$161.
+    dead port 2/2 on $mux $procmux$161.
+    dead port 1/2 on $mux $procmux$158.
+    dead port 2/2 on $mux $procmux$158.
+    dead port 1/2 on $mux $procmux$155.
+    dead port 2/2 on $mux $procmux$155.
+    dead port 1/2 on $mux $procmux$152.
+    dead port 1/2 on $mux $procmux$137.
+    dead port 2/2 on $mux $procmux$137.
+    dead port 1/2 on $mux $procmux$134.
+    dead port 2/2 on $mux $procmux$134.
+    dead port 1/2 on $mux $procmux$131.
+    dead port 2/2 on $mux $procmux$131.
+    dead port 1/2 on $mux $procmux$128.
+    dead port 2/2 on $mux $procmux$128.
+    dead port 1/2 on $mux $procmux$122.
+    dead port 2/2 on $mux $procmux$122.
+    dead port 1/2 on $mux $procmux$119.
+    dead port 2/2 on $mux $procmux$119.
+    dead port 1/2 on $mux $procmux$116.
+    dead port 2/2 on $mux $procmux$116.
+    dead port 1/2 on $mux $procmux$113.
+    dead port 2/2 on $mux $procmux$113.
+    dead port 1/2 on $mux $procmux$110.
+    dead port 2/2 on $mux $procmux$110.
+    dead port 1/2 on $mux $procmux$107.
+    dead port 2/2 on $mux $procmux$107.
+    dead port 1/2 on $mux $procmux$104.
+    dead port 2/2 on $mux $procmux$104.
+    dead port 1/2 on $mux $procmux$101.
+    dead port 2/2 on $mux $procmux$101.
+    dead port 1/2 on $mux $procmux$98.
+    dead port 1/2 on $mux $procmux$191.
+    dead port 2/2 on $mux $procmux$191.
+    dead port 1/2 on $mux $procmux$188.
+    dead port 2/2 on $mux $procmux$188.
+    dead port 1/2 on $mux $procmux$185.
+    dead port 2/2 on $mux $procmux$185.
+Removed 50 multiplexer ports.
+<suppressed ~22 debug messages>
+
+5.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rne_equivalence.
+Performed a total of 0 changes.
+
+5.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rne_equivalence'.
+Computing hashes of 44 cells of `\rne_equivalence'.
+Finding duplicate cells in `\rne_equivalence'.
+Removed a total of 0 cells.
+
+5.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rne_equivalence..
+Removed 0 unused cells and 113 unused wires.
+<suppressed ~1 debug messages>
+
+5.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rne_equivalence.
+
+5.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+5.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rne_equivalence..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~20 debug messages>
+
+5.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rne_equivalence.
+Performed a total of 0 changes.
+
+5.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rne_equivalence'.
+Computing hashes of 44 cells of `\rne_equivalence'.
+Finding duplicate cells in `\rne_equivalence'.
+Removed a total of 0 cells.
+
+5.13. Executing OPT_DFF pass (perform DFF optimizations).
+
+5.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rne_equivalence..
+
+5.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rne_equivalence.
+
+5.16. Finished fast OPT passes. (There is nothing left to do.)
+
+6. Executing MEMORY_MAP pass (converting memories to logic and flip-flops).
+
+7. Executing OPT pass (performing simple optimizations).
+
+7.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rne_equivalence.
+
+7.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rne_equivalence'.
+Computing hashes of 44 cells of `\rne_equivalence'.
+Finding duplicate cells in `\rne_equivalence'.
+Removed a total of 0 cells.
+
+7.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \rne_equivalence..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~20 debug messages>
+
+7.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \rne_equivalence.
+Performed a total of 0 changes.
+
+7.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\rne_equivalence'.
+Computing hashes of 44 cells of `\rne_equivalence'.
+Finding duplicate cells in `\rne_equivalence'.
+Removed a total of 0 cells.
+
+7.6. Executing OPT_DFF pass (perform DFF optimizations).
+
+7.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \rne_equivalence..
+
+7.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module rne_equivalence.
+
+7.9. Finished fast OPT passes. (There is nothing left to do.)
+
+8. Executing SAT pass (solving SAT problems in the circuit).
+Using SAT solver `minisat`.
+
+Setting up SAT problem:
+Final constraint equation: { } = { }
+Imported 44 cells to SAT database.
+Import proof-constraint: \equal = 1'1
+Final proof equation: \equal = 1'1
+Import show expression: \shift
+Import show expression: \value
+
+Solving problem with 13459 variables and 37461 clauses..
+SAT proof finished - no model found: SUCCESS!
+
+                  /$$$$$$      /$$$$$$$$     /$$$$$$$    
+                 /$$__  $$    | $$_____/    | $$__  $$   
+                | $$  \ $$    | $$          | $$  \ $$   
+                | $$  | $$    | $$$$$       | $$  | $$   
+                | $$  | $$    | $$__/       | $$  | $$   
+                | $$/$$ $$    | $$          | $$  | $$   
+                |  $$$$$$/ /$$| $$$$$$$$ /$$| $$$$$$$//$$
+                 \____ $$$|__/|________/|__/|_______/|__/
+                       \__/                              
+

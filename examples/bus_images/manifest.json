@@ -1,0 +1,61 @@
+{
+  "format": "tpc-x1-bus-images-v1",
+  "source_weight_format": "OpenTernary 2bit-v1",
+  "group_size": 128,
+  "group_scheme": "last-dim-rowwise-v1",
+  "shape": {
+    "B": 4,
+    "R": 19,
+    "K": 257
+  },
+  "coefficient_format": "u16 mantissa + u8 shift + reserved-u8=0",
+  "output_units": [
+    1.1920928955078125e-07,
+    1.9073486328125e-06,
+    4.76837158203125e-07,
+    4.76837158203125e-07,
+    2.384185791015625e-07,
+    9.5367431640625e-07,
+    7.62939453125e-06,
+    3.814697265625e-06,
+    9.5367431640625e-07,
+    1.1920928955078125e-07,
+    3.814697265625e-06,
+    3.814697265625e-06,
+    1.9073486328125e-06,
+    9.5367431640625e-07,
+    3.814697265625e-06,
+    3.814697265625e-06,
+    7.62939453125e-06,
+    4.76837158203125e-07,
+    7.62939453125e-06
+  ],
+  "metadata": {
+    "synthetic": true,
+    "not_a_trained_model": true
+  },
+  "tiles": [
+    {
+      "sequence": 0,
+      "token_start": 0,
+      "row_start": 0,
+      "k_start": 0,
+      "tokens": 4,
+      "rows": 16,
+      "k": 257,
+      "bank": 0,
+      "tag": 0
+    },
+    {
+      "sequence": 1,
+      "token_start": 0,
+      "row_start": 16,
+      "k_start": 0,
+      "tokens": 4,
+      "rows": 3,
+      "k": 257,
+      "bank": 1,
+      "tag": 1
+    }
+  ]
+}

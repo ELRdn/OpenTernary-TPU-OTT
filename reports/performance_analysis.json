@@ -1,0 +1,264 @@
+{
+  "evidence_class": "analytical projections with separately labeled actual RTL cycles",
+  "assumed_clock_hz": 250000000.0,
+  "clock_verified_by_place_route": false,
+  "gemm_peak_terms_per_cycle": 1024,
+  "gemv_peak_active_terms_per_cycle": 256,
+  "gemm_peak_mac_equivalent_tops": 0.512,
+  "gemv_peak_mac_equivalent_tops": 0.128,
+  "mac_equivalent_operations_per_term": 2,
+  "actual_floating_point_operations": false,
+  "weight_bytes_per_input_beat": 64.0,
+  "coefficient_bytes_per_group": 64,
+  "amortized_weight_and_coefficient_bytes_per_input_beat": 72.0,
+  "continuous_weight_and_scale_bandwidth_gbps": 18.0,
+  "ddr_peak_gbps_from_baseline_paper": 19.2,
+  "ddr_efficiency_assumption": 0.7,
+  "ddr_effective_gbps_assumed": 13.44,
+  "bandwidth_limited_duty_ceiling_excluding_other_traffic": 0.7466666666666666,
+  "T5_DMA_integrated": false,
+  "nonlinear_LLM_hardware_integrated": false,
+  "end_to_end_tokens_s_measured": null,
+  "power_w_measured": null,
+  "cached_tile_measurements": {
+    "source": "ACTUAL_CXXRTL",
+    "excludes_loading": true,
+    "clock_frequency_measured": false,
+    "records": [
+      {
+        "B": 1,
+        "R": 16,
+        "K": 1,
+        "cycles": 11,
+        "input_beats": 1,
+        "active_terms": 16,
+        "conditional_gterms_s": 0.36363636363636365,
+        "conditional_mac_equivalent_tops": 0.0007272727272727272
+      },
+      {
+        "B": 1,
+        "R": 16,
+        "K": 16,
+        "cycles": 11,
+        "input_beats": 1,
+        "active_terms": 256,
+        "conditional_gterms_s": 5.818181818181818,
+        "conditional_mac_equivalent_tops": 0.011636363636363636
+      },
+      {
+        "B": 1,
+        "R": 16,
+        "K": 17,
+        "cycles": 12,
+        "input_beats": 2,
+        "active_terms": 272,
+        "conditional_gterms_s": 5.666666666666667,
+        "conditional_mac_equivalent_tops": 0.011333333333333334
+      },
+      {
+        "B": 1,
+        "R": 16,
+        "K": 127,
+        "cycles": 18,
+        "input_beats": 8,
+        "active_terms": 2032,
+        "conditional_gterms_s": 28.22222222222222,
+        "conditional_mac_equivalent_tops": 0.05644444444444444
+      },
+      {
+        "B": 1,
+        "R": 16,
+        "K": 128,
+        "cycles": 18,
+        "input_beats": 8,
+        "active_terms": 2048,
+        "conditional_gterms_s": 28.444444444444443,
+        "conditional_mac_equivalent_tops": 0.056888888888888885
+      },
+      {
+        "B": 1,
+        "R": 16,
+        "K": 129,
+        "cycles": 19,
+        "input_beats": 9,
+        "active_terms": 2064,
+        "conditional_gterms_s": 27.157894736842106,
+        "conditional_mac_equivalent_tops": 0.05431578947368421
+      },
+      {
+        "B": 1,
+        "R": 16,
+        "K": 255,
+        "cycles": 26,
+        "input_beats": 16,
+        "active_terms": 4080,
+        "conditional_gterms_s": 39.23076923076923,
+        "conditional_mac_equivalent_tops": 0.07846153846153847
+      },
+      {
+        "B": 1,
+        "R": 16,
+        "K": 256,
+        "cycles": 26,
+        "input_beats": 16,
+        "active_terms": 4096,
+        "conditional_gterms_s": 39.38461538461539,
+        "conditional_mac_equivalent_tops": 0.07876923076923077
+      },
+      {
+        "B": 1,
+        "R": 16,
+        "K": 257,
+        "cycles": 27,
+        "input_beats": 17,
+        "active_terms": 4112,
+        "conditional_gterms_s": 38.074074074074076,
+        "conditional_mac_equivalent_tops": 0.07614814814814815
+      },
+      {
+        "B": 1,
+        "R": 16,
+        "K": 4095,
+        "cycles": 266,
+        "input_beats": 256,
+        "active_terms": 65520,
+        "conditional_gterms_s": 61.57894736842106,
+        "conditional_mac_equivalent_tops": 0.12315789473684212
+      },
+      {
+        "B": 1,
+        "R": 16,
+        "K": 4096,
+        "cycles": 266,
+        "input_beats": 256,
+        "active_terms": 65536,
+        "conditional_gterms_s": 61.59398496240601,
+        "conditional_mac_equivalent_tops": 0.12318796992481203
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 1,
+        "cycles": 11,
+        "input_beats": 1,
+        "active_terms": 64,
+        "conditional_gterms_s": 1.4545454545454546,
+        "conditional_mac_equivalent_tops": 0.002909090909090909
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 16,
+        "cycles": 11,
+        "input_beats": 1,
+        "active_terms": 1024,
+        "conditional_gterms_s": 23.272727272727273,
+        "conditional_mac_equivalent_tops": 0.04654545454545454
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 17,
+        "cycles": 12,
+        "input_beats": 2,
+        "active_terms": 1088,
+        "conditional_gterms_s": 22.666666666666668,
+        "conditional_mac_equivalent_tops": 0.04533333333333334
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 127,
+        "cycles": 18,
+        "input_beats": 8,
+        "active_terms": 8128,
+        "conditional_gterms_s": 112.88888888888889,
+        "conditional_mac_equivalent_tops": 0.22577777777777777
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 128,
+        "cycles": 18,
+        "input_beats": 8,
+        "active_terms": 8192,
+        "conditional_gterms_s": 113.77777777777777,
+        "conditional_mac_equivalent_tops": 0.22755555555555554
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 129,
+        "cycles": 19,
+        "input_beats": 9,
+        "active_terms": 8256,
+        "conditional_gterms_s": 108.63157894736842,
+        "conditional_mac_equivalent_tops": 0.21726315789473685
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 255,
+        "cycles": 26,
+        "input_beats": 16,
+        "active_terms": 16320,
+        "conditional_gterms_s": 156.92307692307693,
+        "conditional_mac_equivalent_tops": 0.3138461538461539
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 256,
+        "cycles": 26,
+        "input_beats": 16,
+        "active_terms": 16384,
+        "conditional_gterms_s": 157.53846153846155,
+        "conditional_mac_equivalent_tops": 0.3150769230769231
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 257,
+        "cycles": 27,
+        "input_beats": 17,
+        "active_terms": 16448,
+        "conditional_gterms_s": 152.2962962962963,
+        "conditional_mac_equivalent_tops": 0.3045925925925926
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 4095,
+        "cycles": 266,
+        "input_beats": 256,
+        "active_terms": 262080,
+        "conditional_gterms_s": 246.31578947368425,
+        "conditional_mac_equivalent_tops": 0.4926315789473685
+      },
+      {
+        "B": 4,
+        "R": 16,
+        "K": 4096,
+        "cycles": 266,
+        "input_beats": 256,
+        "active_terms": 262144,
+        "conditional_gterms_s": 246.37593984962405,
+        "conditional_mac_equivalent_tops": 0.4927518796992481
+      }
+    ]
+  },
+  "logical_scratchpad_bytes": {
+    "activation": 16384,
+    "weights_double_buffer": 32768,
+    "scale_double_buffer": 4096
+  },
+  "TeLLMe_target": {
+    "model": "same 0.7B checkpoint required, not yet obtained",
+    "short_context_decode_tokens_s": 12,
+    "prefill_64_seconds": 0.45,
+    "1024_context_decode_tokens_s": 10,
+    "power_w": 6.72,
+    "power_boundary": "must first resolve baseline measurement boundary",
+    "status": "NOT_ACHIEVED_NOT_MEASURED"
+  }
+}

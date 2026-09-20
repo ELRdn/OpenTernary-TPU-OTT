@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Generated HDL / simulation / synthesis artifacts
+build/
+*.so
+*.dll
+*.dylib
+*.o
+*.obj
+*.vcd
+*.fst
+*.jou
+*.str
+*.wdb
+*.bit
+*.bin
+*.dcp
+*.rpt
+
+# Large generated logs/netlists
+reports/*.log
+reports/*.xml
+reports/rendered/desktop.png
+reports/rendered/mobile.png
+*_xcup.json
+*_xcup.v
+accelerator.cc
+accelerator.h
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

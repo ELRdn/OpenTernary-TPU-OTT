@@ -1,0 +1,128 @@
+[
+  {
+    "id": "S01",
+    "title": "TeLLMe: An Energy-Efficient Ternary LLM Accelerator for Prefill and Decode on Edge FPGAs",
+    "url": "https://arxiv.org/pdf/2504.16266v2",
+    "version": "arXiv:2504.16266v2, 2025-04-24",
+    "checked": "Paper text and Tables III-V, Figures 9-10 inspected; reported FPGA results, not independently reproduced.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S02",
+    "title": "TerEffic: Highly Efficient Ternary LLM Inference on FPGA",
+    "url": "https://arxiv.org/pdf/2502.16473v2",
+    "version": "arXiv:2502.16473v2, 2025-05-01",
+    "checked": "Paper model/card scope, evaluation and Vivado power-report methodology inspected; not a matched Transformer baseline.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S03",
+    "title": "Hardware Generation and Exploration of Lookup Table-Based Accelerators for 1.58-bit LLM Inference",
+    "url": "https://arxiv.org/pdf/2604.25183v1",
+    "version": "arXiv:2604.25183v1, 2026-04-28",
+    "checked": "Table IV and INT8/FP16 design-space results inspected. ASIC synthesis, not board LLM throughput.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S04",
+    "title": "KU Leuven MICAS ternary-lut-dse",
+    "url": "https://github.com/KULeuven-MICAS/ternary-lut-dse",
+    "version": "accessed 2026-09-20",
+    "checked": "Official generator README; architecture reference, source not copied.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S05",
+    "title": "TERINT-GEMV official repository",
+    "url": "https://github.com/Notre-Dame-HW-SW-Codesign-Lab/TERINT-GEMV",
+    "version": "accessed 2026-09-20",
+    "checked": "81-to-64 codebook restriction and fine-tuning, RTL and SoC estimator scope checked.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S06",
+    "title": "Microsoft T-MAC",
+    "url": "https://github.com/microsoft/T-MAC",
+    "version": "accessed 2026-09-20",
+    "checked": "Official CPU/NPU low-bit LUT inference framework; no direct FPGA speed transfer.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S07",
+    "title": "Microsoft BitNet",
+    "url": "https://github.com/microsoft/BitNet",
+    "version": "accessed 2026-09-20",
+    "checked": "Official low-bit model/runtime reference; not executed here.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S08",
+    "title": "fpgasystems/ternaryLLM",
+    "url": "https://github.com/fpgasystems/ternaryLLM",
+    "version": "accessed 2026-09-20",
+    "checked": "Sparse addition-based GEMM reference; model-specific sparsity must be measured.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S09",
+    "title": "Berkeley Gemmini",
+    "url": "https://github.com/ucb-bar/gemmini",
+    "version": "accessed 2026-09-20",
+    "checked": "Official scratchpad, DMA, access/execute and loop-tiling design reference.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S10",
+    "title": "FINN documentation",
+    "url": "https://finn.readthedocs.io/en/latest/",
+    "version": "accessed 2026-09-20",
+    "checked": "FPGA quantized neural-network framework documentation; not used as a backend.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S11",
+    "title": "AMD KV260 Starter Kit Product Details DS986",
+    "url": "https://docs.amd.com/r/en-US/ds986-kv260-starter-kit/Product-Details",
+    "version": "DS986 1.3, 2025-06-25",
+    "checked": "Official resources: system logic cells, BRAM, URAM, DSP, DDR. Not all counts share paper units.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S12",
+    "title": "OpenTernary canonical packing contract",
+    "url": "https://github.com/ELRdn/OpenTernary/blob/31564aeff6b03a46942ef048715058f4b5cba320/src/openternary/quant/packing.py",
+    "version": "commit 31564aeff6b03a46942ef048715058f4b5cba320",
+    "checked": "Read through user-authorized GitHub connector; 2bit mapping, MSB-first codes, 00 tail. Blob fdc55ffa06009bd15572ece07d640e765fc56394. Independent implementation, no copied function.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S13",
+    "title": "Official Yosys toolchain workflow",
+    "url": "https://github.com/YosysHQ/yosys/actions/runs/34751481437",
+    "version": "head d0e71cfb7bcafe2b437f3edc1789b69e99ecd55a, 2026-09-13",
+    "checked": "Official wheel downloaded via read-only GitHub artifact tool and actually executed; see toolchain.json.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  },
+  {
+    "id": "S14",
+    "title": "AMD K26 SOM datasheet DS987",
+    "url": "https://docs.amd.com/r/en-US/ds987-k26-som",
+    "version": "accessed 2026-09-20",
+    "checked": "Official datasheet entry point; exact-part integration must use the board-specific device data.",
+    "kind": "primary",
+    "retrieved_date": "2026-09-20"
+  }
+]

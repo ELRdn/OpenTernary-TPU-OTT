@@ -1,0 +1,30 @@
+{
+  "name": "TPC-X1 Edge candidate",
+  "status": "DESIGN_TARGET_NOT_BOARD_VALIDATED",
+  "rows": 16,
+  "lanes": 16,
+  "batch_lanes": 4,
+  "group_size": 128,
+  "max_k": 4096,
+  "dot_accumulator_bits": 32,
+  "scaled_accumulator_bits": 64,
+  "coefficient_mantissa_bits": 16,
+  "coefficient_max_shift": 31,
+  "assumed_clock_mhz": 250,
+  "internal_weight_bus_bits": 512,
+  "target_device": "AMD Kria K26 / KV260",
+  "external_memory_peak_gbps": 19.2,
+  "memory_efficiency_assumption": 0.7,
+  "full_system_decode_target_tokens_s": 12.0,
+  "full_system_prefill64_target_seconds": 0.45,
+  "full_system_power_target_watts": 6.72,
+  "baseline": "TeLLMe arXiv:2504.16266v2 Tables III-V, 0.7B; exact checkpoint matching required",
+  "not_measured": [
+    "physical board Fmax",
+    "physical board power",
+    "end-to-end LLM tokens/s",
+    "model quality retention"
+  ],
+  "technology_mapping_executed": true,
+  "technology_mapping_is_not_vendor_place_and_route": true
+}

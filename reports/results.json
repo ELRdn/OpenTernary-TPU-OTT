@@ -1,0 +1,141 @@
+{
+  "project": "OpenTernary TPC-X1",
+  "date": "2026-09-20",
+  "configuration": "R16 L16 B4 G128 MAX_K4096",
+  "overall_status": "TILE_ACCELERATOR_DESIGNED_IMPLEMENTED_RTL_TESTED_MAPPED; FULL_LLM_COMPETITIVE_GOAL_NOT_CLOSED",
+  "test_framework": {
+    "tests": 24,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "seconds": 62.757
+  },
+  "actual_rtl": {
+    "kind": "ACTUAL_YOSYS_CXXRTL_SYSTEMVERILOG",
+    "seed": 2026092081,
+    "randomized_commands": 1000,
+    "output_values_checked": 64000,
+    "active_ternary_products_checked": 3194727,
+    "command_to_consume_cycles_sum": 20243,
+    "max_command_cycles": 266,
+    "all_bus_cycles_including_load_reset": 31083,
+    "output_backpressure": true,
+    "both_weight_banks": true,
+    "four_state_x_propagation": false,
+    "fpga_hardware_measured": false
+  },
+  "additional_actual_rtl": [
+    "22 full-width cycle/boundary cases",
+    "8-command B5 R19 K4225 layer tiling",
+    "invalid commands and never-initialized memory",
+    "active and masked-invalid weight codes",
+    "invalid scale configs",
+    "bank ownership, busy command rejection, reset/flush, output hold under backpressure"
+  ],
+  "other_tests": {
+    "random_independent_cpp_gemms": 1500,
+    "random_cycle_spec_transactions": 10000,
+    "cycle_spec_is_not_RTL": true,
+    "rounding_cases": 12331
+  },
+  "formal": [
+    {
+      "property": "product_equivalence",
+      "exit_code": 0,
+      "pass": true,
+      "seconds": 0.8855538368225098,
+      "proof_scope": "combinational all inputs; two-state"
+    },
+    {
+      "property": "t5_equivalence",
+      "exit_code": 0,
+      "pass": true,
+      "seconds": 0.7350566387176514,
+      "proof_scope": "combinational all inputs; two-state"
+    },
+    {
+      "property": "rne_equivalence",
+      "exit_code": 0,
+      "pass": true,
+      "seconds": 1.1436052322387695,
+      "proof_scope": "combinational all inputs; two-state"
+    }
+  ],
+  "hot_path_structure": {
+    "top": "tpc_tile_mac",
+    "pass": true,
+    "proof": "Yosys flattened generic structural cell exclusion",
+    "forbidden_cell_types": [
+      "$mul",
+      "$macc",
+      "$div",
+      "$mod"
+    ],
+    "scope_excludes_group_scale": true
+  },
+  "synthesis": {
+    "evidence": "Yosys UltraScale+ technology mapping, no place and route",
+    "counting": "LUT1..LUT6 node sum, not vendor placed LUT utilization; includes separately reported INV/CARRY cells",
+    "baseline_64bit_rounding": {
+      "LUT1_to_LUT6": 57154,
+      "FDRE": 39258,
+      "DSP48E2": 64,
+      "RAMB18E2": 45,
+      "CARRY4": 9383,
+      "INV": 9498,
+      "RAM32M16": 37
+    },
+    "optimized_product_width_rounding": {
+      "LUT1_to_LUT6": 56561,
+      "FDRE": 37274,
+      "DSP48E2": 64,
+      "RAMB18E2": 45,
+      "CARRY4": 9191,
+      "INV": 9498,
+      "RAM32M16": 37
+    },
+    "relative_LUT_node_reduction": 0.010375476782027548,
+    "relative_FF_reduction": 0.0505374700697947,
+    "clock_verified": false,
+    "power_measured": false,
+    "Vivado_primitive_legality_verified": false,
+    "DSP_scope": "64 group scale multipliers; ternary MAC structurally excludes multiplication",
+    "BRAM_unit": "18 Kb blocks; 45 blocks = 22.5 of 36 Kb capacity, not a vendor placement claim"
+  },
+  "gates": [
+    {
+      "id": "G0",
+      "name": "Numerics/packing/reference",
+      "status": "PASS"
+    },
+    {
+      "id": "G1",
+      "name": "Actual RTL generation and randomized execution",
+      "status": "PASS"
+    },
+    {
+      "id": "G2",
+      "name": "Local SAT, no-multiplier MAC, technology synthesis",
+      "status": "PASS_WITH_PNR_NOT_IMPLIED"
+    },
+    {
+      "id": "G3",
+      "name": "Vivado exact-part implementation / timing closure",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "G4",
+      "name": "DMA and actual model layer on FPGA board",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "G5",
+      "name": "Matched full-LLM quality, tokens/s and power comparison",
+      "status": "NOT_RUN"
+    }
+  ],
+  "end_to_end_tokens_per_second": null,
+  "measured_clock_MHz": null,
+  "measured_power_watts": null,
+  "competitive_performance_claim_allowed": false
+}

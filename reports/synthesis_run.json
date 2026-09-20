@@ -1,0 +1,8 @@
+{
+  "exit_code": 0,
+  "seconds": 214.2477536201477,
+  "mapping": "Xilinx UltraScale+ / Yosys synth_xilinx -family xcup",
+  "place_and_route": false,
+  "clock_verified": false,
+  "power_measured": false
+}

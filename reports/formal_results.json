@@ -1,0 +1,23 @@
+[
+  {
+    "property": "product_equivalence",
+    "exit_code": 0,
+    "pass": true,
+    "seconds": 0.6350414752960205,
+    "proof_scope": "combinational all inputs; two-state"
+  },
+  {
+    "property": "t5_equivalence",
+    "exit_code": 0,
+    "pass": true,
+    "seconds": 0.6720268726348877,
+    "proof_scope": "combinational all inputs; two-state"
+  },
+  {
+    "property": "rne_equivalence",
+    "exit_code": 0,
+    "pass": true,
+    "seconds": 0.9928085803985596,
+    "proof_scope": "combinational all inputs; two-state"
+  }
+]

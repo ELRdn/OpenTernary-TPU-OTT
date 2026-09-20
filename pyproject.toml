@@ -1,0 +1,11 @@
+[project]
+name = "openternary-tpc-x1-design"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.24"]
+[project.optional-dependencies]
+test = ["pytest>=8"]
+report = ["mistune>=3,<4"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

@@ -1,0 +1,18 @@
+OpenTernary TPU (OTT)
+Copyright 2026 The OpenTernary Authors
+
+This product includes hardware designs and software developed by the
+OpenTernary project (https://github.com/ELRdn/OpenTernary-TPU-OTT), the
+hardware companion of OpenTernary (https://github.com/ELRdn/OpenTernary).
+
+Under Section 4(d) of the Apache License, Version 2.0, redistributions and
+derivative works (including forks and derived RTL) must keep a readable copy
+of the attribution notices in this NOTICE file.
+
+Third-party notices:
+- Generated CXXRTL C++ and compiled models use the Yosys CXXRTL runtime,
+  Copyright (C) 2019-2020 whitequark, under the permissive notice reproduced
+  in licenses/CXXRTL_RUNTIME_NOTICE.txt.
+
+Not covered by the Apache License:
+- The OpenTernary name and logos; see TRADEMARKS.md.

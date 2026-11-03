@@ -99,7 +99,7 @@ docs/         architecture, numerics, integration, limitations, research report
 reports/      compact preserved validation/synthesis evidence
 reference/    research references and toolchain provenance
 examples/     synthetic inputs and bus images
-licenses/     third-party notices required by generated/runtime components
+licenses/     third-party notices required by generated/runtime components (see NOTICE)
 ```
 
 Generated CXXRTL, shared libraries, multi-megabyte logs, mapped netlists, and FPGA build outputs are intentionally excluded from Git. They should be regenerated locally or published as release/CI artifacts.
@@ -167,11 +167,16 @@ TPC-X1 -> future TPC generations
 
 The projects are intentionally separate so hardware experimentation can evolve without destabilizing the software repository.
 
-## License status
+## License
 
-A project-wide open-source license has **not yet been selected**. See [`LICENSE_STATUS.md`](LICENSE_STATUS.md). Third-party notices are kept under [`licenses/`](licenses/).
+The RTL, software and documentation are licensed under the [Apache License 2.0](LICENSE), the same license as [OpenTernary](https://github.com/ELRdn/OpenTernary). Copyright 2026 The OpenTernary Authors.
 
-Until a license is explicitly added, do not assume permission to redistribute or reuse the project code beyond what copyright law otherwise permits.
+- Forks, derived RTL and other redistributions must keep the [NOTICE](NOTICE) file, which names this project as the origin (Apache-2.0, Section 4(d)), and mark files they changed (Section 4(b)).
+- The OpenTernary / OTT names and logos are **not** licensed under Apache-2.0: see [TRADEMARKS.md](TRADEMARKS.md).
+- Third-party notices are kept under [`licenses/`](licenses/).
+- Contributions are accepted under the same license (Apache-2.0, Section 5).
+
+This is not legal advice or a patent clearance.
 
 ## Research integrity
 

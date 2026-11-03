@@ -18,7 +18,7 @@ This tree is the cleaned public-source layout prepared from the TPC-X1 validatio
 
 ## License
 
-No project-wide license was chosen automatically. `LICENSE_STATUS.md` deliberately keeps licensing as TBD because the parent OpenTernary repository also did not have a project-wide license at preparation time.
+The project is licensed under the Apache License 2.0 (`LICENSE`, `NOTICE`, `TRADEMARKS.md`), matching the parent OpenTernary repository's decision of 2026-11-03. The earlier `LICENSE_STATUS.md` (license TBD) was removed.
 
 ## Local validation of this cleaned tree
 

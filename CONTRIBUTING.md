@@ -37,4 +37,4 @@ Do not commit generated CXXRTL, shared libraries, giant synthesis logs, mapped n
 
 ## Licensing
 
-A project-wide license has not yet been selected. External contributions should not be merged until contribution/licensing terms are made explicit.
+The project is licensed under the [Apache License 2.0](LICENSE). By submitting a contribution you agree that it is licensed under the same terms (Apache-2.0, Section 5). Keep the `NOTICE` file and add third-party notices under `licenses/` when you bring in external material.

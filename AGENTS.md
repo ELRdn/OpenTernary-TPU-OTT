@@ -19,4 +19,4 @@ board DMA/descriptor integration, real-model numerical validation, and the
 Attention/SFU/KV/full-model runtime. Do not hide their cost in performance reports.
 Keep original source, logs, tool versions, source fingerprints and experiments.
 Do not push to the user's OpenTernary repository or launch paid hardware/services
-without an explicit request. Public licensing of original project code is TBD.
+without an explicit request. Original project code is licensed under Apache-2.0 (see LICENSE, NOTICE, TRADEMARKS.md).

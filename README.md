@@ -173,7 +173,7 @@ The RTL, software and documentation are licensed under the [Apache License 2.0](
 
 - Forks, derived RTL and other redistributions must keep the [NOTICE](NOTICE) file, which names this project as the origin (Apache-2.0, Section 4(d)), and mark files they changed (Section 4(b)).
 - The OpenTernary / OTT names and logos are **not** licensed under Apache-2.0: see [TRADEMARKS.md](TRADEMARKS.md).
-- Third-party notices are kept under [`licenses/`](licenses/). `reference/user_supplied_prior_report.md` is excluded from the license (see NOTICE).
+- Third-party notices are kept under [`licenses/`](licenses/).
 - Contributions are accepted under the same license (Apache-2.0, Section 5).
 
 This is not legal advice or a patent clearance.

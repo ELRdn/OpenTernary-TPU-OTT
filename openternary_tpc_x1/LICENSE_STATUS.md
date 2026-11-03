@@ -6,4 +6,4 @@
 
 CXXRTLの生成C++とcompiled modelはYosysのruntimeを使用する。そのpermissive noticeを `licenses/CXXRTL_RUNTIME_NOTICE.txt` に同梱した。Yosys/ABCのインストール用archive、wheel、他の開発ツール本体は同梱しない。再現用の版・出所・hashは `reference/toolchain.json` にある。
 
-`reference/user_supplied_prior_report.md` はユーザーがこの依頼で提供した先行文章の保存用コピーであり、一次資料や今回の検証結果ではない。元の著者の条件に従い、Apache License 2.0の対象外とする（`NOTICE` 参照）。
+`reference/user_supplied_prior_report.md` はプロジェクトオーナーの指示でAIが作成した先行文章の保存用コピーであり、一次資料や今回の検証結果ではない。オーナーの判断（2026-11-03）により、他の独自部分と同じくApache License 2.0の対象とする。
